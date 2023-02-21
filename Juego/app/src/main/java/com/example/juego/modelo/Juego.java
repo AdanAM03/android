@@ -1,5 +1,7 @@
 package com.example.juego.modelo;
 
+import static java.lang.Thread.sleep;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -141,6 +143,11 @@ public class Juego extends SurfaceView implements SurfaceHolder.Callback {
         joystick[1].draw(canvas);
         hiloBolas.draw(canvas);
         nave.draw(canvas);
+        try {
+            sleep(300);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
