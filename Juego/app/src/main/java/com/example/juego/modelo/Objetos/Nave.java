@@ -74,15 +74,15 @@ public class Nave extends Objeto{
     }
 
     public void recoloca() {
-        if (getAncho() <= 0)
+        if (getPosX() <= 0)
             setPosicionX(Constantes.anchoPixeles - 100);
         else if (getPosX() >= Constantes.anchoPixeles)
-            setPosicionX(getAncho() + 10);
+            setPosicionX(ancho + 10);
 
         if (getAlto() <= 0)
             setPosicionY(Constantes.altoPixeles - 100);
         else if (getPosY() >= Constantes.altoPixeles)
-            setPosicionY(getAlto() + 10);
+            setPosicionY(alto + 10);
     }
 
 }

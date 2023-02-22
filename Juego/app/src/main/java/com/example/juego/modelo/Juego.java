@@ -155,6 +155,13 @@ public class Juego extends SurfaceView implements SurfaceHolder.Callback {
         float x = event.getX();
         float y = event.getY();
 
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            joystick[0].setPosicionX(x);
+            joystick[0].setPosicionY(y);
+            joystick[1].setPosicionX(x);
+            joystick[1].setPosicionY(y);
+        }
+
         if (!estado && Constantes.compruebaBoton(x, y, false)) {
             estado = true;
             return true;
@@ -168,35 +175,27 @@ public class Juego extends SurfaceView implements SurfaceHolder.Callback {
         float velX;
         float velY;
 
+        velX = (x - joystick[0].getPosX()) / 5f;
+        velY = (y - joystick[0].getPosY()) / 5f;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                joystick[1].setPosicionX(x);
+                joystick[1].setPosicionY(y);
+                velNavX = velX;
+                velNavY = velY;
+                nave.recoloca();
+                break;
 
-        if ((x >= joystick[0].getPosX() - joystick[0].getRadio() && x <= joystick[0].getPosX() + joystick[0].getRadio()) &&
-                (y >= joystick[0].getPosY() - joystick[0].getRadio() && y <= joystick[0].getPosY() + joystick[0].getRadio())) {
-            velX = (x - joystick[0].getPosX()) / 5f;
-            velY = (y - joystick[0].getPosY()) / 5f;
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_MOVE:
-                    joystick[1].setPosicionX(x);
-                    joystick[1].setPosicionY(y);
-                    velNavX = velX;
-                    velNavY = velY;
-                    nave.recoloca();
-                    break;
-
-                case MotionEvent.ACTION_UP:
-                    joystick[1].setPosicionX(joystick[0].getPosX());
-                    joystick[1].setPosicionY(joystick[0].getPosY());
-                    velNavX = 0f;
-                    velNavY = 0f;
-                    break;
-            }
+            case MotionEvent.ACTION_UP:
+                joystick[0].setPosicionX(-250);
+                joystick[0].setPosicionX(-250);
+                joystick[1].setPosicionX(-250);
+                joystick[1].setPosicionY(-250);
+                velNavX = 0f;
+                velNavY = 0f;
+                break;
         }
 
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            joystick[1].setPosicionX(joystick[0].getPosX());
-            joystick[1].setPosicionY(joystick[0].getPosY());
-            velNavX = 0f;
-            velNavY = 0f;
-        }
 
         return true;
     }
