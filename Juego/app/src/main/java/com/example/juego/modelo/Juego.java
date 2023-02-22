@@ -177,18 +177,9 @@ public class Juego extends SurfaceView implements SurfaceHolder.Callback {
                 case MotionEvent.ACTION_MOVE:
                     joystick[1].setPosicionX(x);
                     joystick[1].setPosicionY(y);
-                    if ((nave.getAncho() + nave.getPosX()) >= 5 && nave.getPosX() <= Constantes.anchoPixeles - 5)
-                        velNavX = velX;
-                    else {
-                        nave.recoloca();
-                    }
-
-                    if ((nave.getAlto() + nave.getPosY()) >= 5 && nave.getPosY() <= Constantes.altoPixeles - 5)
-                        velNavY = velY;
-                    else {
-                        nave.recoloca();
-                    }
-
+                    velNavX = velX;
+                    velNavY = velY;
+                    nave.recoloca();
                     break;
 
                 case MotionEvent.ACTION_UP:
