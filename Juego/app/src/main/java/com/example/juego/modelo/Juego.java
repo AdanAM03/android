@@ -25,6 +25,7 @@ import com.example.juego.modelo.Objetos.Nave;
 import com.example.juego.modelo.recursos.Constantes;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Juego extends SurfaceView implements SurfaceHolder.Callback {
     private BucleJuego bucleJuego;
@@ -148,6 +149,7 @@ public class Juego extends SurfaceView implements SurfaceHolder.Callback {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        bucleJuego.interrupt();
     }
 
     @Override
@@ -169,6 +171,7 @@ public class Juego extends SurfaceView implements SurfaceHolder.Callback {
 
         if (estado && Constantes.compruebaBoton(x, y, true)) {
             estado = false;
+            bucleJuego.run();
             return false;
         }
 
