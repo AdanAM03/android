@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "436754636163",
+    "project_id": "sexo-c61e8",
+    "storage_bucket": "sexo-c61e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436754636163:android:d2f19f416812968a0d2ab6",
+        "android_client_info": {
+          "package_name": "com.example.probarmapas2023"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "436754636163-8ntk1ildjbigp035o6n0qsjm10bqqhao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpt0j9LmIc2gExsr3-c3YVVFIzbaQMLSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "436754636163-8ntk1ildjbigp035o6n0qsjm10bqqhao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
