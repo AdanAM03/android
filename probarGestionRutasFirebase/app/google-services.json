@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "260974066180",
+    "project_id": "pruebafirebase-127b0",
+    "storage_bucket": "pruebafirebase-127b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260974066180:android:51130a701d681a0e1e1351",
+        "android_client_info": {
+          "package_name": "com.example.probargestionrutasfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260974066180-ui7l40537en85c8h015k5naji7s519nk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpirzk2UtSVs1ZqtBT6QLre-7S0anjL7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260974066180-ui7l40537en85c8h015k5naji7s519nk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
