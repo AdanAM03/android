@@ -10,11 +10,11 @@ import android.view.WindowManager;
 import com.example.juego.modelo.Juego;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static Juego juego;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Juego juego = new Juego(this);
+        juego = new Juego(this);
         // Set window to fullscreen (will hide status bar)
         Window window = getWindow();
         window.setFlags(
@@ -25,6 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(juego);
 
+    }
+
+    public void reiniciaJuego() {
+        Juego juego = new Juego(this);
+        // Set window to fullscreen (will hide status bar)
+        Window window = getWindow();
+        window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
+
+
+        setContentView(juego);
     }
 
 

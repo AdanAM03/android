@@ -43,6 +43,9 @@ public class BucleJuego extends Thread{
         start();
     }
 
+    public void resetPuntos() {
+        this.puntuacion = 0;
+    }
 
     @Override
     public void run() {
@@ -60,7 +63,13 @@ public class BucleJuego extends Thread{
         Canvas canvas = null;
 
         startTime = System.currentTimeMillis();
-        while(estaIniciado && !juego.muerte) {
+        while(estaIniciado) {
+            while (juego.muerte) {
+                canvas = surfaceHolder.lockCanvas();
+                juego.drawGameOver(canvas);
+                surfaceHolder.unlockCanvasAndPost(canvas);
+            }
+
             while (!juego.estado) {
                 canvas = surfaceHolder.lockCanvas();
                 juego.pintaPausa(canvas);
