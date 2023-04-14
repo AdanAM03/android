@@ -2,33 +2,34 @@ package com.example.probargestionrutasfirebase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.probargestionrutasfirebase.clases.Usuario;
-import com.example.probargestionrutasfirebase.dao.DaoUsuario;
+import com.example.probargestionrutasfirebase.clases.dao.DaoUsuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Observer {
+    private ArrayList<Usuario> a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DaoUsuario dao = new DaoUsuario("Usuario");
+
 /*
         dao.addUsuario(new Usuario("Miguel Angel", "Garrido"));
         dao.deleteUsuario(new Usuario("Francisco", "Franco"));
         dao.updateUsuario(new Usuario("Cisco", "Cornelius"), "Francisco", null);
 */
-
-        ArrayList<Usuario> array = dao.getUsuarios();
-
-        for(Usuario u:array){
-            Log.d(":::TAG", u.toString());
-        }
 
         /*
         // Añadir
@@ -57,4 +58,13 @@ public class MainActivity extends AppCompatActivity {
         });
         */
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        a = (ArrayList<Usuario>) arg;
+        for (Usuario u: a)
+            Log.d("gasolina", u.getApellido() + " " + u.getNombre());
+
+    }
+
 }
