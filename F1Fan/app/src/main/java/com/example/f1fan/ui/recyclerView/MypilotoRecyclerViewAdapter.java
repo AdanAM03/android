@@ -1,32 +1,33 @@
 package com.example.f1fan.ui.recyclerView;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentPilotoBinding;
 import com.example.f1fan.modelo.pojos.Piloto;
-import com.example.f1fan.ui.recyclerView.placeholder.PlaceholderContent.PlaceholderItem;
-
-import java.io.IOException;
-import java.net.URL;
+import com.example.f1fan.ui.FullscreenPiloto;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRecyclerViewAdapter.ViewHolder> {
 
     private final List<Piloto> mValues;
+    private Context context;
+    private FragmentManager fragmentManager;
 
-    public MypilotoRecyclerViewAdapter(List<Piloto> items) {
+    public MypilotoRecyclerViewAdapter(List<Piloto> items, Context context, FragmentManager fragmentManager) {
         mValues = items;
+        this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -41,15 +42,28 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
         holder.nombre.setText(mValues.get(position).getNombre() + " " + mValues.get(position).getApellidos());
         holder.victorias.setText("Victorias: " + mValues.get(position).getVictorias());
         holder.edad.setText("Edad: " + String.valueOf(mValues.get(position).getEdad()));
+        Drawable d = null;
+
         try {
-            if (mValues.get(position).getUrl_foto() != "n" && mValues.get(position).getUrl_foto() != "0" ) {
-                URL urlFoto = new URL(mValues.get(position).getUrl_foto());
-                Bitmap bitmap = BitmapFactory.decodeStream(urlFoto.openConnection().getInputStream());
-                holder.foto.setImageBitmap(bitmap);
-            }
-        } catch (IOException e) {
+            d = ContextCompat.getDrawable(context, R.drawable.class.getField(mValues.get(position).getApellidos().toLowerCase().replace(" ", "")).getInt(null));
+        } catch (Exception e) {
+            Log.d("package:mine", "" + e.getMessage());
             //throw new RuntimeException(e);
         }
+        holder.foto.setImageDrawable(d);
+
+        Drawable finalD = d;
+        holder.vista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                Log.d("piloto", "" + mValues.get(position).getId());
+                ft.replace(R.id.drawer_layout, new FullscreenPiloto(mValues.get(position), finalD, fragmentManager));
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
     }
 
     @Override
@@ -61,8 +75,8 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
         public final TextView nombre;
         public final TextView victorias;
         public final TextView edad;
-
         public final ImageView foto;
+        public final View vista;
 
         public ViewHolder(FragmentPilotoBinding binding) {
             super(binding.getRoot());
@@ -70,6 +84,7 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
             victorias = binding.apellidos;
             edad = binding.edad;
             foto = binding.foto;
+            vista = binding.pilotoContent;
 
         }
 
@@ -78,4 +93,5 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
             return super.toString() + " '" + "'";
         }
     }
+
 }

@@ -9,4 +9,5 @@
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.recyclerView.pilotoFragment"
     tools:listitem="@layout/fragment_piloto"
-    android:background="@color/gris"/>
+    android:background="@color/gris"
+    android:fastScrollEnabled="true"/>

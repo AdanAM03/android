@@ -1,7 +1,7 @@
 package com.example.f1fan.modelo.pojos;
 
 public class Piloto {
-    private Long id;
+    private String id;
     private String equipo;
     private String nombre;
     private String apellidos;
@@ -13,7 +13,7 @@ public class Piloto {
     private int gp_terminados;
     private String url_foto;
 
-    public Piloto(Long id, String equipo, String nombre, String apellidos, int edad, int podios, int pole_positions, int victorias, float puntos, int gp_terminados, String url_foto) {
+    public Piloto(String id, String equipo, String nombre, String apellidos, int edad, int podios, int pole_positions, int victorias, float puntos, int gp_terminados, String url_foto) {
         this.id = id;
         this.equipo = equipo;
         this.nombre = nombre;
@@ -30,11 +30,11 @@ public class Piloto {
     public Piloto() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

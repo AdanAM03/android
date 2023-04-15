@@ -4,14 +4,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Usuario {
     private FirebaseUser usuario;
-    private Rol rol;
+    private static Rol rol;
 
     public Usuario(FirebaseUser usuario) {
         this.usuario = usuario;
     }
 
-    public Rol getRol() {
-        return this.rol;
+    public static Rol getRol() {
+        return rol;
     }
 
     public void setRol(Rol rol) {

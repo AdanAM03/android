@@ -1,5 +1,9 @@
 package com.example.f1fan.modelo;
 
+import static com.google.android.gms.tasks.Tasks.await;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import androidx.annotation.NonNull;
 
@@ -13,6 +17,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.checkerframework.checker.units.qual.C;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class BD {
     private FirebaseFirestore fb;
@@ -31,8 +41,7 @@ public class BD {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d("piloto", document.getId() + " => " + document.getData());
                                 Piloto p = new Piloto();
-                                Log.d("error", "" + document.get("nombre", String.class));
-                                p.setId(Long.valueOf(document.getId()));
+                                p.setId(document.getId());
                                 p.setNombre(document.get("nombre", String.class));
                                 p.setApellidos(document.get("apellidos", String.class));
                                 p.setEdad(document.get("edad", Integer.class));
@@ -44,7 +53,7 @@ public class BD {
                                 p.setPodios(document.get("podios", Integer.class));
                                 p.setUrl_foto(document.get("url_foto", String.class));
 
-                                BDestatica.addPiloto(document.toObject(Piloto.class));
+                                BDestatica.addPiloto(p);
                             }
                         } else {
                             Log.d("piloto", "Error getting documents: ", task.getException());
@@ -53,14 +62,16 @@ public class BD {
                 });
     }
 
-    public void modificaPiloto(Piloto pilotoNuevo, Piloto pilotoAntiguo) {
-        fb.collection("pilotos").document(pilotoAntiguo.getNombre())
+    public void modificaPiloto(Piloto pilotoNuevo) {
+        fb.collection("pilotos").document(String.valueOf(pilotoNuevo.getId()))
                 .set(pilotoNuevo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
 
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("piloto", "DocumentSnapshot successfully written!");
+                        BDestatica.modificaPiloto(pilotoNuevo);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -21,8 +21,12 @@ public class BDestatica {
         pilotos.add(piloto);
     }
 
-    public void modificaPiloto(Piloto pilotoNuevo, Piloto pilotoAntiguo) {
-        pilotos.remove(pilotoAntiguo);
-        pilotos.add(pilotoNuevo);
+    public static void modificaPiloto(Piloto pilotoNuevo) {
+        for (int index = 0; index < pilotos.size() - 1; index++) {
+            if (pilotos.get(index).getId() == pilotoNuevo.getId()){
+                pilotos.remove(index);
+                pilotos.add(pilotoNuevo);
+            }
+        }
     }
 }

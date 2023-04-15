@@ -1,9 +1,12 @@
 package com.example.f1fan.ui.recyclerView;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +22,10 @@ import com.example.f1fan.modelo.pojos.BDestatica;
  * A fragment representing a list of Items.
  */
 public class pilotoFragment extends Fragment {
-
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private Context context;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -65,8 +67,20 @@ public class pilotoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MypilotoRecyclerViewAdapter(BDestatica.getPilotos()));
+            recyclerView.setAdapter(new MypilotoRecyclerViewAdapter(BDestatica.getPilotos(), context, getActivity().getSupportFragmentManager()));
         }
+
         return view;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }
