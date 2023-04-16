@@ -15,10 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.f1fan.R;
+import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.pojos.Equipo;
 import com.example.f1fan.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.f1fan.databinding.FragmentEquipoBinding;
-import com.example.f1fan.ui.FullscreenPiloto;
 
 import java.util.List;
 
@@ -31,10 +31,12 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
     private final List<Equipo> mValues;
     private Context context;
     private FragmentManager fragmentManager;
-    public MyEquipoRecyclerViewAdapter(List<Equipo> items, Context context, FragmentManager fragmentManager) {
+    private DAOequipo daoEquipo;
+    public MyEquipoRecyclerViewAdapter(List<Equipo> items, Context context, FragmentManager fragmentManager, DAOequipo daoEquipo) {
         mValues = items;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.daoEquipo = daoEquipo;
     }
 
     @Override
@@ -70,7 +72,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
                         R.anim.fade_in,
                         R.anim.slide_out
                 );
-                ft.replace(R.id.drawer_layout, new FullscreenFragmentEquipo(mValues.get(position), finalD, fragmentManager));
+                ft.replace(R.id.drawer_layout, new FullscreenFragmentEquipo(mValues.get(position), finalD, fragmentManager, daoEquipo));
                 ft.addToBackStack(null);
                 ft.setReorderingAllowed(false).commit();
             }

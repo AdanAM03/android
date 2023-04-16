@@ -8,9 +8,14 @@ public class BDestatica {
     private static ArrayList<Noticia> noticias = new ArrayList<>();
     private static ArrayList<Piloto> pilotos = new ArrayList<>();
     private static ArrayList<Temporada> temporadas = new ArrayList<>();
+    private static ArrayList<PilotoRanking> pilotosRanking = new ArrayList<>();
 
-    public Piloto getPiloto(int id) {
-        return pilotos.get(id);
+    public static ArrayList<PilotoRanking> getPilotosRanking() {
+        return pilotosRanking;
+    }
+
+    public static void addPilotoRanking(PilotoRanking p) {
+        pilotosRanking.add(p);
     }
 
     public static ArrayList<Piloto> getPilotos() {
@@ -45,5 +50,13 @@ public class BDestatica {
 
     public static ArrayList<Equipo> getEquipos() {
         return equipos;
+    }
+
+    public static void addTemporada(Temporada t) {
+        temporadas.add(t);
+    }
+
+    public static ArrayList<Temporada> getTemporadas() {
+        return temporadas;
     }
 }

@@ -6,16 +6,6 @@
     app:startDestination="@id/inicio">
 
     <fragment
-        android:id="@+id/nav_pilotoFragment"
-        android:name="com.example.f1fan.ui.recyclerView.pilotoFragment"
-        android:label="Pilotos"
-        tools:layout="@layout/fragment_piloto_list" />
-    <fragment
-        android:id="@+id/nav_equipoFragment"
-        android:name="com.example.f1fan.ui.equipoView.EquipoFragment"
-        android:label="fragment_equipo_list"
-        tools:layout="@layout/fragment_equipo_list" />
-    <fragment
         android:id="@+id/inicio"
         android:name="com.example.f1fan.ui.Inicio"
         android:label="fragment_inicio"
@@ -25,4 +15,9 @@
         android:name="com.example.f1fan.ui.slideshow.SlideshowFragment"
         android:label="fragment_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_temporadas"
+        android:name="com.example.f1fan.ui.temporadaView.TemporadaFragment"
+        android:label="fragment_temporada_list"
+        tools:layout="@layout/fragment_temporada_list" />
 </navigation>

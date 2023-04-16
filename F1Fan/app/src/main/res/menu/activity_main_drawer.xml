@@ -11,19 +11,14 @@
             android:title="Inicio"/>
 
         <item
-            android:id="@+id/nav_pilotoFragment"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Pilotos"/>
-
-        <item
-            android:id="@+id/nav_equipoFragment"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Equipos"/>
-
-        <item
             android:id="@+id/slideshowFragment"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Equipos y pilotos"/>
+
+        <item
+            android:id="@+id/nav_temporadas"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Ranking e historico"/>
 
     </group>
 </menu>

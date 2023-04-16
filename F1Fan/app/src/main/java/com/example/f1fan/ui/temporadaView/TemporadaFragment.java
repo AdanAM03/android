@@ -1,4 +1,4 @@
-package com.example.f1fan.ui.equipoView;
+package com.example.f1fan.ui.temporadaView;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,33 +14,32 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.f1fan.R;
-import com.example.f1fan.modelo.DAO.DAOequipo;
+import com.example.f1fan.modelo.DAO.DAOtemporada;
 import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.placeholder.PlaceholderContent;
 
 /**
  * A fragment representing a list of Items.
  */
-public class EquipoFragment extends Fragment {
+public class TemporadaFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-
     private Context context;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public EquipoFragment() {
+    public TemporadaFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static EquipoFragment newInstance(int columnCount) {
-        EquipoFragment fragment = new EquipoFragment();
+    public static TemporadaFragment newInstance(int columnCount) {
+        TemporadaFragment fragment = new TemporadaFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -59,7 +58,7 @@ public class EquipoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_equipo_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_temporada_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -70,7 +69,8 @@ public class EquipoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyEquipoRecyclerViewAdapter(BDestatica.getEquipos(), context, getActivity().getSupportFragmentManager(), new DAOequipo()));
+            recyclerView.setAdapter(new MyTemporadaRecyclerViewAdapter(BDestatica.getTemporadas(), context, getActivity().getSupportFragmentManager(), new DAOtemporada()));
+
         }
         return view;
     }

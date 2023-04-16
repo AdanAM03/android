@@ -23,6 +23,7 @@ import android.view.WindowManager;
 
 import com.example.f1fan.databinding.FragmentFullscreenEquipoBinding;
 import com.example.f1fan.modelo.BD;
+import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.pojos.Equipo;
 import com.example.f1fan.modelo.pojos.Piloto;
 import com.example.f1fan.modelo.pojos.Rol;
@@ -41,11 +42,13 @@ public class FullscreenFragmentEquipo extends Fragment {
     private BD bd = new BD();
     private final Equipo equipo;
     private FragmentManager fragmentManager;
+    private DAOequipo daoEquipo;
 
-    public FullscreenFragmentEquipo(Equipo equipo, Drawable drawable, FragmentManager fragmentManager) {
+    public FullscreenFragmentEquipo(Equipo equipo, Drawable drawable, FragmentManager fragmentManager, DAOequipo daoEquipo) {
         this.equipo = equipo;
         imagenEquipo = drawable;
         this.fragmentManager = fragmentManager;
+        this.daoEquipo = daoEquipo;
     }
 
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -153,7 +156,7 @@ public class FullscreenFragmentEquipo extends Fragment {
                     equipo.setVictorias(Integer.parseInt(binding.victoriasEquipoEdit.getText().toString()));
                     equipo.setAnhos_activo(Integer.parseInt(binding.anhosEquipoEdit.getText().toString()));
 
-                    bd.modificaEquipo(equipo);
+                    daoEquipo.modificaEquipo(equipo);
 
                     cerrarFragment();
                 }

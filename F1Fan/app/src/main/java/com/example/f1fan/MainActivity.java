@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.f1fan.modelo.BD;
+import com.example.f1fan.modelo.DAO.DAOequipo;
+import com.example.f1fan.modelo.DAO.DAOpiloto;
+import com.example.f1fan.modelo.DAO.DAOtemporada;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.ui.recyclerView.MypilotoRecyclerViewAdapter;
@@ -25,7 +28,6 @@ import com.example.f1fan.databinding.ActivityMainBinding;
 import com.google.rpc.context.AttributeContext;
 
 public class MainActivity extends AppCompatActivity {
-    private BD bd = new BD();
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private Usuario user = new Usuario(null);
@@ -35,12 +37,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         user.setRol(Rol.ADMIN);
 
-        bd.getPilotos();
-        bd.getEquipos();
+        DAOtemporada daOtemporada = new DAOtemporada();
+        DAOequipo daOequipo = new DAOequipo();
+        DAOpiloto daOpiloto = new DAOpiloto();
+        daOpiloto.getPilotos();
+        daOequipo.getEquipos();
+        daOtemporada.getTemporadas();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        
         setSupportActionBar(binding.appBarMain.toolbar);
 
         //if (user.getRol() == Rol.ANONIMO) {
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.inicio, R.id.nav_equipoFragment, R.id.nav_pilotoFragment, R.id.slideshowFragment)
+                    R.id.inicio, R.id.slideshowFragment, R.id.nav_temporadas)
                     .setOpenableLayout(drawer)
                     .build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

@@ -14,8 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentPilotoBinding;
+import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.pojos.Piloto;
-import com.example.f1fan.ui.FullscreenPiloto;
+
 import java.util.List;
 
 public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRecyclerViewAdapter.ViewHolder> {
@@ -24,10 +25,13 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
     private Context context;
     private FragmentManager fragmentManager;
 
-    public MypilotoRecyclerViewAdapter(List<Piloto> items, Context context, FragmentManager fragmentManager) {
+    private DAOpiloto daoPiloto;
+
+    public MypilotoRecyclerViewAdapter(List<Piloto> items, Context context, FragmentManager fragmentManager, DAOpiloto daOpiloto) {
         mValues = items;
         this.context = context;
         this.fragmentManager = fragmentManager;
+        daoPiloto = daOpiloto;
     }
 
     @Override
@@ -62,7 +66,7 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
                         R.anim.fade_in,
                         R.anim.slide_out
                 );
-                ft.replace(R.id.drawer_layout, new FullscreenPiloto(mValues.get(position), finalD, fragmentManager));
+                ft.replace(R.id.drawer_layout, new FullscreenPiloto(mValues.get(position), finalD, fragmentManager, daoPiloto));
                 ft.addToBackStack("piloto");
                 ft.setReorderingAllowed(true).commit();
             }

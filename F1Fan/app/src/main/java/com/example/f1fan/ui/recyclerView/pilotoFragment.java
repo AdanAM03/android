@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.f1fan.R;
+import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.pojos.BDestatica;
 
 /**
@@ -67,7 +68,8 @@ public class pilotoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MypilotoRecyclerViewAdapter(BDestatica.getPilotos(), context, getActivity().getSupportFragmentManager()));
+            DAOpiloto daoPiloto = new DAOpiloto();
+            recyclerView.setAdapter(new MypilotoRecyclerViewAdapter(BDestatica.getPilotos(), context, getActivity().getSupportFragmentManager(), daoPiloto));
         }
 
         return view;

@@ -1,4 +1,4 @@
-package com.example.f1fan.ui;
+package com.example.f1fan.ui.recyclerView;
 
 import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import com.example.f1fan.databinding.FragmentFullscreenPilotoBinding;
 import com.example.f1fan.modelo.BD;
+import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.pojos.Piloto;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
@@ -42,17 +43,18 @@ public class FullscreenPiloto extends Fragment {
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
-    private BD bd = new BD();
     private Piloto piloto;
+    private DAOpiloto daoPiloto;
     private Drawable imagenPiloto;
     private EditText[] datos;
     private final Handler mHideHandler = new Handler(Looper.myLooper());
     private FragmentManager fragmentManager;
 
-    public FullscreenPiloto(Piloto piloto, Drawable drawable, FragmentManager fragmentManager) {
+    public FullscreenPiloto(Piloto piloto, Drawable drawable, FragmentManager fragmentManager, DAOpiloto dao) {
         this.piloto = piloto;
         imagenPiloto = drawable;
         this.fragmentManager = fragmentManager;
+        daoPiloto = dao;
     }
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
@@ -181,7 +183,7 @@ public class FullscreenPiloto extends Fragment {
                     piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
                     Log.d("piloto", "" + piloto.getId());
 
-                    bd.modificaPiloto(piloto);
+                    daoPiloto.modificaPiloto(piloto);
 
                     cerrarFragment();
                 }
