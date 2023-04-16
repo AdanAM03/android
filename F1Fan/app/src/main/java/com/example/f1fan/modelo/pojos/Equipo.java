@@ -1,14 +1,14 @@
 package com.example.f1fan.modelo.pojos;
 
 public class Equipo {
-    private Long id;
+    private String id;
     private String nombre;
     private String team_principal;
     private int victorias;
     private int anhos_activo;
     private String url_foto;
 
-    public Equipo(Long id, String nombre, String team_principal, int victorias, int anhos_activo, String url_foto) {
+    public Equipo(String id, String nombre, String team_principal, int victorias, int anhos_activo, String url_foto) {
         this.id = id;
         this.nombre = nombre;
         this.team_principal = team_principal;
@@ -19,11 +19,11 @@ public class Equipo {
 
     public Equipo() {}
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

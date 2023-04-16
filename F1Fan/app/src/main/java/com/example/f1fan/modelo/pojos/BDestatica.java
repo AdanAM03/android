@@ -29,4 +29,21 @@ public class BDestatica {
             }
         }
     }
+
+    public static void modificaEquipo(Equipo equipoNuevo) {
+        for (int index = 0; index < equipos.size() - 1; index++) {
+            if (equipos.get(index).getId() == equipoNuevo.getId()){
+                equipos.remove(index);
+                equipos.add(equipoNuevo);
+            }
+        }
+    }
+
+    public static void addEquipo(Equipo e) {
+        equipos.add(e);
+    }
+
+    public static ArrayList<Equipo> getEquipos() {
+        return equipos;
+    }
 }

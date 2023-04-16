@@ -18,4 +18,7 @@
     <color name="black_overlay">#66000000</color>
     <color name="pilotoDetail">#A49C9C9C</color>
     <color name="red">#A47A0000</color>
+    <color name="a1">#9BC1BC</color>
+    <color name="a2">#E6EBE0</color>
+    <color name="a3">#F4F1BB</color>
 </resources>

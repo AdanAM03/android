@@ -83,14 +83,41 @@ public class BD {
                 });
     }
 
-    public void modificaEquipo(Equipo equipoNuevo, Equipo equipoAntiguo) {
-        fb.collection("pilotos").document(equipoAntiguo.getNombre())
+    public void getEquipos() {
+        fb.collection("equipos")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("equipo", document.getId() + " => " + document.getData());
+                                Equipo e = new Equipo();
+                                e.setId(document.getId());
+                                e.setNombre(document.get("nombre", String.class));
+                                e.setVictorias(document.get("victorias", Integer.class));
+                                e.setUrl_foto(document.get("url_foto", String.class));
+                                e.setAnhos_activo(document.get("anhos_activo", Integer.class));
+                                e.setTeam_principal(document.get("team_principal", String.class));
+
+                                BDestatica.addEquipo(e);
+                            }
+                        } else {
+                            Log.d("piloto", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+    public void modificaEquipo(Equipo equipoNuevo) {
+        fb.collection("equipos").document(equipoNuevo.getId())
                 .set(equipoNuevo)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
 
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("equipo", "DocumentSnapshot successfully written!");
+                        BDestatica.modificaEquipo(equipoNuevo);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

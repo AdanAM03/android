@@ -56,11 +56,15 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
         holder.vista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                Log.d("piloto", "" + mValues.get(position).getId());
+                FragmentTransaction ft = fragmentManager.beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out,
+                        R.anim.fade_in,
+                        R.anim.slide_out
+                );
                 ft.replace(R.id.drawer_layout, new FullscreenPiloto(mValues.get(position), finalD, fragmentManager));
-                ft.addToBackStack(null);
-                ft.commit();
+                ft.addToBackStack("piloto");
+                ft.setReorderingAllowed(true).commit();
             }
         });
 

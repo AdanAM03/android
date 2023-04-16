@@ -4,19 +4,26 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/inicio"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Inicio"/>
 
         <item
             android:id="@+id/nav_pilotoFragment"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Pilotos y Equipos"/>
+            android:title="Pilotos"/>
+
+        <item
+            android:id="@+id/nav_equipoFragment"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Equipos"/>
+
+        <item
+            android:id="@+id/slideshowFragment"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Equipos y pilotos"/>
 
     </group>
 </menu>
