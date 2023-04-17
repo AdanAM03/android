@@ -16,8 +16,8 @@
         android:label="fragment_slideshow"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
-        android:id="@+id/nav_temporadas"
-        android:name="com.example.f1fan.ui.temporadaView.TemporadaFragment"
-        android:label="fragment_temporada_list"
-        tools:layout="@layout/fragment_temporada_list" />
+        android:id="@+id/slideshowFragment2"
+        android:name="com.example.f1fan.ui.slideshow2.SlideshowFragment2"
+        android:label="fragment_slideshow2"
+        tools:layout="@layout/fragment_slideshow2" />
 </navigation>

@@ -2,13 +2,20 @@ package com.example.f1fan.modelo.pojos;
 
 public class PilotoRanking {
     private String nombre;
-    private int puesto;
     private float puntos;
+    private String id;
 
-    public PilotoRanking(String nombre, int puesto, float puntos) {
+    public PilotoRanking(String nombre, float puntos) {
         this.nombre = nombre;
-        this.puesto = puesto;
         this.puntos = puntos;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public PilotoRanking() {
@@ -20,14 +27,6 @@ public class PilotoRanking {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public int getPuesto() {
-        return puesto;
-    }
-
-    public void setPuesto(int puesto) {
-        this.puesto = puesto;
     }
 
     public float getPuntos() {

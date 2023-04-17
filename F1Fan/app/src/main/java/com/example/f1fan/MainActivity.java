@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.f1fan.modelo.BD;
+import com.example.f1fan.modelo.DAO.DAORanking;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         daOpiloto.getPilotos();
         daOequipo.getEquipos();
         daOtemporada.getTemporadas();
+        new DAORanking().getRanking();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.inicio, R.id.slideshowFragment, R.id.nav_temporadas)
+                    R.id.inicio, R.id.slideshowFragment, R.id.slideshowFragment2)
                     .setOpenableLayout(drawer)
                     .build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

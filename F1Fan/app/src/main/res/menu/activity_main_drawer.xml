@@ -16,7 +16,7 @@
             android:title="Equipos y pilotos"/>
 
         <item
-            android:id="@+id/nav_temporadas"
+            android:id="@+id/slideshowFragment2"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Ranking e historico"/>
 

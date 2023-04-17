@@ -1,19 +1,24 @@
 package com.example.f1fan.ui.temporadaView;
 
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.f1fan.R;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
 import com.example.f1fan.modelo.pojos.Equipo;
 import com.example.f1fan.modelo.pojos.Temporada;
 import com.example.f1fan.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.f1fan.databinding.FragmentTemporadaBinding;
+import com.example.f1fan.ui.recyclerView.FullscreenPiloto;
 
 import java.util.List;
 
@@ -38,7 +43,6 @@ public class MyTemporadaRecyclerViewAdapter extends RecyclerView.Adapter<MyTempo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         return new ViewHolder(FragmentTemporadaBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
     }
@@ -49,6 +53,20 @@ public class MyTemporadaRecyclerViewAdapter extends RecyclerView.Adapter<MyTempo
         holder.piloto.setText("Piloto camnpeón: " + mValues.get(position).getPiloto_campeon());
         holder.equipo.setText("Equipo campeón: " + mValues.get(position).getEquipo_campeon());
         holder.carreras.setText("Nª carreras: " + mValues.get(position).getNum_carreras());
+        holder.vista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = fragmentManager.beginTransaction().setCustomAnimations(
+                        R.anim.slide_in,
+                        R.anim.fade_out,
+                        R.anim.fade_in,
+                        R.anim.slide_out
+                );
+                ft.replace(R.id.drawer_layout, new NuevaTemporadaFragment(fragmentManager, new DAOtemporada()));
+                ft.addToBackStack(null);
+                ft.setReorderingAllowed(true).commit();
+            }
+        });
     }
 
     @Override
@@ -61,6 +79,7 @@ public class MyTemporadaRecyclerViewAdapter extends RecyclerView.Adapter<MyTempo
         public final TextView piloto;
         public final TextView equipo;
         public final TextView carreras;
+        public final View vista;
 
         public ViewHolder(FragmentTemporadaBinding binding) {
             super(binding.getRoot());
@@ -68,6 +87,7 @@ public class MyTemporadaRecyclerViewAdapter extends RecyclerView.Adapter<MyTempo
             piloto = binding.campeonTemporada;
             equipo = binding.equipoTemporada;
             carreras = binding.carrerasTemporada;
+            vista = binding.temporadaContent;
         }
 
         @Override

@@ -59,4 +59,11 @@ public class BDestatica {
     public static ArrayList<Temporada> getTemporadas() {
         return temporadas;
     }
+
+    public static void modificaRanking(PilotoRanking p) {
+        for (PilotoRanking r:pilotosRanking) {
+            if (r.getId().equals(p.getId()))
+                r = p;
+        }
+    }
 }
