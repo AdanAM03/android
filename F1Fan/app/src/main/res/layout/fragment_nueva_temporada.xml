@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
+    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/cardBackgroundColor"
+    android:background="?attr/fullscreenBackgroundColor"
     android:theme="@style/ThemeOverlay.F1Fan.FullscreenContainer"
-    tools:context=".ui.rankingView.NuevaTemporadaFragment" >
+    tools:context=".ui.temporadaView.NuevaTemporadaFragment">
 
     <EditText
         android:id="@+id/numCarrerasEdit"
@@ -121,11 +121,13 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
     <LinearLayout
-        android:id="@+id/fullscreen_content_controls_2"
+        android:id="@+id/fullscreen_content_controls"
         style="@style/Widget.Theme.F1Fan.ButtonBar.Fullscreen"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
         android:orientation="horizontal"
-        tools:ignore="UselessParent" />
+        tools:ignore="UselessParent">
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,8 +47,6 @@ public class NuevaTemporadaFragment extends Fragment {
      * Some older devices needs a small delay between UI widget updates
      * and a change of the status and navigation bar.
      */
-    private static final int UI_ANIMATION_DELAY = 300;
-    private final Handler mHideHandler = new Handler(Looper.myLooper());
     private FragmentManager fragmentManager;
     private DAOtemporada daoTemporada;
 
@@ -56,6 +54,9 @@ public class NuevaTemporadaFragment extends Fragment {
         this.fragmentManager = fragmentManager;
         this.daoTemporada = daoTemporada;
     }
+
+    private static final int UI_ANIMATION_DELAY = 300;
+    private final Handler mHideHandler = new Handler(Looper.myLooper());
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -137,8 +138,8 @@ public class NuevaTemporadaFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mVisible = true;
 
-        mControlsView = binding.fullscreenContentControls2;
-        mContentView = binding.frameLayout2;
+        mControlsView = binding.fullscreenContentControls;
+        mContentView = binding.frameLayout3;
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {

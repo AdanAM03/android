@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentSlideshowBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -43,7 +45,8 @@ public class SlideshowFragment2 extends Fragment {
         }).attach();
         //final TextView textView = binding.textSlideshow;
         //slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
+        Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        t.setTitle("Ranking e histórico");
         return root;
     }
 

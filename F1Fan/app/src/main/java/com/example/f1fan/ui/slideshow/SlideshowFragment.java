@@ -3,10 +3,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentSlideshowBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -38,6 +42,8 @@ public class SlideshowFragment extends Fragment {
             if (position==0)tab.setText("Equipos");
             if (position==1)tab.setText("Pilotos");
         }).attach();
+        Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        t.setTitle("Equipos y pilotos");
         //final TextView textView = binding.textSlideshow;
         //slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
