@@ -14,9 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.f1fan.R;
+import com.example.f1fan.Utils;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.pojos.BDestatica;
+import com.example.f1fan.modelo.pojos.Rol;
+import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.placeholder.PlaceholderContent;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A fragment representing a list of Items.
@@ -61,6 +65,8 @@ public class EquipoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_equipo_list, container, false);
 
+        Utils.botones(getActivity());
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -79,6 +85,12 @@ public class EquipoFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Utils.botones(getActivity());
     }
 
     @Override

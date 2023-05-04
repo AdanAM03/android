@@ -1,6 +1,8 @@
 package com.example.f1fan.ui.slideshow2;
 
 
+import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -19,6 +21,7 @@ public class PagerAdapter22 extends FragmentStateAdapter {
         int a = 0;
         switch (position) {
             case 0: {
+                Log.d("::TAG", "ranking");
                 return new RakingFragment();
             }
             case 1: {

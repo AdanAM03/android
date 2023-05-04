@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -154,37 +155,47 @@ public class NuevaTemporadaFragment extends Fragment {
             public void onClick(View v) {
                 boolean error = true;
                 Temporada t = new Temporada();
-                t.setNum_carreras(Integer.parseInt(binding.numCarrerasEdit.getText().toString()));
-                t.setPiloto_campeon(binding.piCamp.getText().toString());
-                t.setEquipo_campeon(binding.eqCamp.getText().toString());
-                t.setAnho(Integer.parseInt(binding.anhoEdit.getText().toString()));
+                String numCarreras = binding.numCarrerasEdit.getText().toString();
+                String piloto = binding.piCamp.getText().toString();
+                String equipo = binding.eqCamp.getText().toString();
+                String anho = binding.anhoEdit.getText().toString();
 
-                if (t.getAnho() >= new Date().getYear() || t.getAnho() <= 1950)
-                    Toast.makeText(getContext(), "No puedes añadir una tempoara no empezada/finalizada", Toast.LENGTH_SHORT).show();
-                else
-                    error = false;
+                if (numCarreras.length() == 0 || piloto.length() == 0 || equipo.length() == 0 || anho.length() == 0)
+                    Toast.makeText(getContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+                else {
+                    t.setN_carreras(Integer.parseInt(numCarreras));
+                    t.setPiloto(piloto);
+                    t.setEquipo(equipo);
+                    t.setAnho(Integer.parseInt(anho));
+                    Log.d("::TAG", "" + new Date().getYear() + 1900);
+                    if (t.getAnho() >= new Date().getYear() + 1900 || t.getAnho() <= 1950)
+                        Toast.makeText(getContext(), "No puedes añadir una tempoara no empezada/finalizada", Toast.LENGTH_SHORT).show();
+                    else
+                        error = false;
+                    Log.d("::TAG", "e: " + error);
 
-                if (t.getNum_carreras() < 15 && !error) {
-                    Toast.makeText(getContext(), "Num de carreras incorrecto", Toast.LENGTH_SHORT).show();
-                    error = true;
-                } else
-                    error = false;
+                    if (t.getN_carreras() < 15 ) {
+                        Toast.makeText(getContext(), "Num de carreras incorrecto", Toast.LENGTH_SHORT).show();
+                        error = true;
+                    } else if (!error)
+                        error = false;
 
-                if (t.getPiloto_campeon().length() < 4 && !error) {
-                    Toast.makeText(getContext(), "Piloto no válido", Toast.LENGTH_SHORT).show();
-                    error = true;
-                } else
-                    error = false;
+                    if (t.getPiloto().length() < 4 ) {
+                        Toast.makeText(getContext(), "Piloto no válido", Toast.LENGTH_SHORT).show();
+                        error = true;
+                    } else if (!error)
+                        error = false;
 
-                if (t.getEquipo_campeon().length() < 4 && !error) {
-                    Toast.makeText(getContext(), "Equipo no válido", Toast.LENGTH_SHORT).show();
-                    error = true;
-                } else
-                    error = false;
+                    if (t.getEquipo().length() < 4 ) {
+                        Toast.makeText(getContext(), "Equipo no válido", Toast.LENGTH_SHORT).show();
+                        error = true;
+                    } else if (!error)
+                        error = false;
 
-                if (!error) {
-                    daoTemporada.addTemporada(t);
-                    cerrar();
+                    if (!error) {
+                        daoTemporada.addTemporada(t);
+                        cerrar();
+                    }
                 }
             }
         });

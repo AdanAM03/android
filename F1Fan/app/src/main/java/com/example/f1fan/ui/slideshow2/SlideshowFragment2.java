@@ -13,6 +13,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentSlideshowBinding;
+import com.example.f1fan.modelo.pojos.Rol;
+import com.example.f1fan.modelo.pojos.Usuario;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -45,8 +47,14 @@ public class SlideshowFragment2 extends Fragment {
         }).attach();
         //final TextView textView = binding.textSlideshow;
         //slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
         Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
         t.setTitle("Ranking e histórico");
+
+        if (Usuario.getRol() == Rol.ANONIMO) {
+            getActivity().findViewById(R.id.slideshowFragment2).setEnabled(false);
+            getActivity().findViewById(R.id.slideshowFragment).setEnabled(false);
+        }
         return root;
     }
 
@@ -54,5 +62,12 @@ public class SlideshowFragment2 extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        t.setTitle("Equipos y pilotos");
     }
 }

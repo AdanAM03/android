@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view"
+    >
 
     <group android:checkableBehavior="single">
 
@@ -19,6 +21,11 @@
             android:id="@+id/slideshowFragment2"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Ranking e historico"/>
+
+        <item
+            android:id="@+id/noticiaFragment"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Noticias"/>
 
     </group>
 </menu>

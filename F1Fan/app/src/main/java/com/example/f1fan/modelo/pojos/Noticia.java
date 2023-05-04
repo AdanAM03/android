@@ -5,9 +5,9 @@ public class Noticia {
     private String titular;
     private String cuerpo;
     private String link_noticia;
-    private String fech_creacion;
+    private long fech_creacion;
 
-    public Noticia(String id, String titular, String cuerpo, String link_noticia, String fech_creacion) {
+    public Noticia(String id, String titular, String cuerpo, String link_noticia, long fech_creacion) {
         this.id = id;
         this.titular = titular;
         this.cuerpo = cuerpo;
@@ -49,11 +49,11 @@ public class Noticia {
         this.link_noticia = link_noticia;
     }
 
-    public String getFech_creacion() {
+    public long getFech_creacion() {
         return fech_creacion;
     }
 
-    public void setFech_creacion(String fech_creacion) {
+    public void setFech_creacion(long fech_creacion) {
         this.fech_creacion = fech_creacion;
     }
 }

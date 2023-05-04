@@ -1,5 +1,6 @@
 package com.example.f1fan.ui.rankingView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -14,8 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.f1fan.R;
+import com.example.f1fan.Utils;
 import com.example.f1fan.modelo.pojos.BDestatica;
+import com.example.f1fan.modelo.pojos.Rol;
+import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.placeholder.PlaceholderContent;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A fragment representing a list of Items.
@@ -58,6 +63,8 @@ public class RakingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ranking_list, container, false);
 
+        Utils.botones(getActivity());
+
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -71,4 +78,13 @@ public class RakingFragment extends Fragment {
         }
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Utils.botones(getActivity());
+    }
+
+
 }

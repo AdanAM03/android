@@ -15,6 +15,7 @@
 
     <style name="ThemeOverlay.F1Fan.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="android:fontFamily">@font/formula1_nomral</item>
         <item name="fullscreenTextColor">@color/light_blue_A400</item>
     </style>
 </resources>

@@ -66,4 +66,12 @@ public class BDestatica {
                 r = p;
         }
     }
+
+    public static void addNoticia(Noticia n) {
+        noticias.add(n);
+    }
+
+    public static ArrayList<Noticia> getNoticias() {
+        return noticias;
+    }
 }

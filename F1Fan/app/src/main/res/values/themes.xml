@@ -15,15 +15,21 @@
 
     <style name="Theme.F1Fan.NoActionBar">
         <item name="windowActionBar">false</item>
+        <item name="android:fontFamily">@font/formula1_nomral</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.F1Fan.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.F1Fan.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:fontFamily">@font/formula1_nomral</item>
+    </style>
 
-    <style name="Theme.F1Fan.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.F1Fan.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+        <item name="android:fontFamily">@font/formula1_nomral</item>
+    </style>
 
     <style name="ThemeOverlay.F1Fan.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="android:fontFamily">@font/formula1_nomral</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
 </resources>

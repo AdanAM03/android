@@ -1,12 +1,11 @@
-package com.example.f1fan.ui.recyclerView;
+package com.example.f1fan.ui.noticiaView;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,32 +16,35 @@ import android.view.ViewGroup;
 
 import com.example.f1fan.R;
 import com.example.f1fan.Utils;
-import com.example.f1fan.modelo.DAO.DAOpiloto;
-import com.example.f1fan.modelo.pojos.BDestatica;
+import com.example.f1fan.modelo.DAO.DAOnoticia;
+import com.example.f1fan.modelo.DAO.DAOtemporada;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
+import com.example.f1fan.placeholder.PlaceholderContent;
+import com.example.f1fan.ui.temporadaView.NuevaTemporadaFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A fragment representing a list of Items.
  */
-public class pilotoFragment extends Fragment {
+public class NoticiaFragment extends Fragment {
+
+    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
-    private Context context;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public pilotoFragment() {
+    public NoticiaFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static pilotoFragment newInstance(int columnCount) {
-        pilotoFragment fragment = new pilotoFragment();
+    public static NoticiaFragment newInstance(int columnCount) {
+        NoticiaFragment fragment = new NoticiaFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -61,9 +63,9 @@ public class pilotoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_piloto_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_noticia_list, container, false);
 
-        Utils.botonesPiloto(getActivity());
+        Utils.botonesNoticia(getActivity());
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -74,28 +76,24 @@ public class pilotoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            DAOpiloto daoPiloto = new DAOpiloto();
-            recyclerView.setAdapter(new MypilotoRecyclerViewAdapter(BDestatica.getPilotos(), context, getActivity().getSupportFragmentManager(), daoPiloto));
+            recyclerView.setAdapter(new MyNoticiaRecyclerViewAdapter(new DAOnoticia(), getContext()));
         }
 
-        return view;
-    }
+        Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        t.setTitle("Noticias");
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        this.context = context;
+        if (Usuario.getRol() == Rol.ANONIMO) {
+            getActivity().findViewById(R.id.slideshowFragment2).setEnabled(false);
+            getActivity().findViewById(R.id.slideshowFragment).setEnabled(false);
+        }
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        Utils.botonesPiloto(getActivity());
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        t.setTitle("Noticias");
+        Utils.botonesNoticia(getActivity());
     }
 }

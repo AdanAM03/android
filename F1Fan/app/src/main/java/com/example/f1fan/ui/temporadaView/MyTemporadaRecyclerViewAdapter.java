@@ -15,7 +15,9 @@ import com.example.f1fan.R;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
 import com.example.f1fan.modelo.pojos.Equipo;
+import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Temporada;
+import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.f1fan.databinding.FragmentTemporadaBinding;
 import com.example.f1fan.ui.recyclerView.FullscreenPiloto;
@@ -50,23 +52,26 @@ public class MyTemporadaRecyclerViewAdapter extends RecyclerView.Adapter<MyTempo
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.anho.setText(String.valueOf(mValues.get(position).getAnho()));
-        holder.piloto.setText("Piloto camnpeón: " + mValues.get(position).getPiloto_campeon());
-        holder.equipo.setText("Equipo campeón: " + mValues.get(position).getEquipo_campeon());
-        holder.carreras.setText("Nª carreras: " + mValues.get(position).getNum_carreras());
-        holder.vista.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = fragmentManager.beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,
-                        R.anim.fade_out,
-                        R.anim.fade_in,
-                        R.anim.slide_out
-                );
-                ft.replace(R.id.drawer_layout, new NuevaTemporadaFragment(fragmentManager, new DAOtemporada()));
-                ft.addToBackStack(null);
-                ft.setReorderingAllowed(true).commit();
-            }
-        });
+        holder.piloto.setText("Piloto camnpeón: " + mValues.get(position).getPiloto());
+        holder.equipo.setText("Equipo campeón: " + mValues.get(position).getEquipo());
+        holder.carreras.setText("Nª carreras: " + mValues.get(position).getN_carreras());
+
+        if (Usuario.getRol() == Rol.ADMIN) {
+            holder.vista.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction ft = fragmentManager.beginTransaction().setCustomAnimations(
+                            R.anim.slide_in,
+                            R.anim.fade_out,
+                            R.anim.fade_in,
+                            R.anim.slide_out
+                    );
+                    ft.replace(R.id.drawer_layout, new NuevaTemporadaFragment(fragmentManager, new DAOtemporada()));
+                    ft.addToBackStack(null);
+                    ft.setReorderingAllowed(true).commit();
+                }
+            });
+        }
     }
 
     @Override

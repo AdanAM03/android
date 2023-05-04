@@ -9,7 +9,7 @@
         android:id="@+id/inicio"
         android:name="com.example.f1fan.ui.Inicio"
         android:label="fragment_inicio"
-        tools:layout="@layout/fragment_inicio" />
+        tools:layout="@layout/inicio" />
     <fragment
         android:id="@+id/slideshowFragment"
         android:name="com.example.f1fan.ui.slideshow.SlideshowFragment"
@@ -20,4 +20,9 @@
         android:name="com.example.f1fan.ui.slideshow2.SlideshowFragment2"
         android:label="fragment_slideshow2"
         tools:layout="@layout/fragment_slideshow2" />
+    <fragment
+        android:id="@+id/noticiaFragment"
+        android:name="com.example.f1fan.ui.noticiaView.NoticiaFragment"
+        android:label="fragment_noticia_list"
+        tools:layout="@layout/fragment_noticia_list" />
 </navigation>

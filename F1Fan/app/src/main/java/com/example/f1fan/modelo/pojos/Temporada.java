@@ -2,16 +2,16 @@ package com.example.f1fan.modelo.pojos;
 
 public class Temporada {
     private String id;
-    private String piloto_campeon;
-    private String equipo_campeon;
-    private int num_carreras;
+    private String piloto;
+    private String equipo;
+    private int n_carreras;
     private int anho;
 
-    public Temporada(String id, String piloto_campeon, String equipo_campeon, int num_carreras, int anho) {
+    public Temporada(String id, String piloto, String equipo, int n_carreras, int anho) {
         this.id = id;
-        this.piloto_campeon = piloto_campeon;
-        this.equipo_campeon = equipo_campeon;
-        this.num_carreras = num_carreras;
+        this.piloto = piloto;
+        this.equipo = equipo;
+        this.n_carreras = n_carreras;
         this.anho = anho;
     }
 
@@ -25,28 +25,28 @@ public class Temporada {
         this.id = id;
     }
 
-    public String getPiloto_campeon() {
-        return piloto_campeon;
+    public int getN_carreras() {
+        return n_carreras;
     }
 
-    public void setPiloto_campeon(String piloto_campeon) {
-        this.piloto_campeon = piloto_campeon;
+    public void setN_carreras(int n_carreras) {
+        this.n_carreras = n_carreras;
     }
 
-    public String getEquipo_campeon() {
-        return equipo_campeon;
+    public String getPiloto() {
+        return piloto;
     }
 
-    public void setEquipo_campeon(String equipo_campeon) {
-        this.equipo_campeon = equipo_campeon;
+    public void setPiloto(String piloto) {
+        this.piloto = piloto;
     }
 
-    public int getNum_carreras() {
-        return num_carreras;
+    public String getEquipo() {
+        return equipo;
     }
 
-    public void setNum_carreras(int num_carreras) {
-        this.num_carreras = num_carreras;
+    public void setEquipo(String equipo) {
+        this.equipo = equipo;
     }
 
     public int getAnho() {

@@ -1,4 +1,4 @@
-package com.example.f1fan.ui.recyclerView;
+package com.example.f1fan.ui.noticiaView;
 
 import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
@@ -7,10 +7,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,45 +17,45 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
+import android.widget.Toast;
 
-import com.example.f1fan.R;
-import com.example.f1fan.databinding.FragmentFullscreenPilotoBinding;
-import com.example.f1fan.modelo.BD;
-import com.example.f1fan.modelo.DAO.DAOpiloto;
-import com.example.f1fan.modelo.pojos.Piloto;
-import com.example.f1fan.modelo.pojos.Rol;
-import com.example.f1fan.modelo.pojos.Usuario;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.f1fan.databinding.FragmentNuevaNoticiaBinding;
+import com.example.f1fan.modelo.DAO.DAOnoticia;
+import com.example.f1fan.modelo.pojos.Noticia;
+import java.net.URL;
+import java.util.Date;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class FullscreenPiloto extends Fragment {
-
+public class NuevaNoticiaFragment extends Fragment {
+    /**
+     * Whether or not the system UI should be auto-hidden after
+     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
+     */
     private static final boolean AUTO_HIDE = true;
 
+    /**
+     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
+     * user interaction before hiding the system UI.
+     */
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
 
     /**
      * Some older devices needs a small delay between UI widget updates
      * and a change of the status and navigation bar.
      */
-    private static final int UI_ANIMATION_DELAY = 300;
-    private Piloto piloto;
-    private DAOpiloto daoPiloto;
-    private Drawable imagenPiloto;
-    private EditText[] datos;
-    private final Handler mHideHandler = new Handler(Looper.myLooper());
     private FragmentManager fragmentManager;
+    private DAOnoticia daoNoticia;
 
-    public FullscreenPiloto(Piloto piloto, Drawable drawable, FragmentManager fragmentManager, DAOpiloto dao) {
-        this.piloto = piloto;
-        imagenPiloto = drawable;
+    public NuevaNoticiaFragment(FragmentManager fragmentManager, DAOnoticia daoNoticia) {
         this.fragmentManager = fragmentManager;
-        daoPiloto = dao;
+        this.daoNoticia = daoNoticia;
     }
+
+    private static final int UI_ANIMATION_DELAY = 300;
+    private final Handler mHideHandler = new Handler(Looper.myLooper());
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -122,7 +119,7 @@ public class FullscreenPiloto extends Fragment {
         }
     };
 
-    private FragmentFullscreenPilotoBinding binding;
+    private FragmentNuevaNoticiaBinding binding;
 
     @Nullable
     @Override
@@ -130,7 +127,7 @@ public class FullscreenPiloto extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        binding = FragmentFullscreenPilotoBinding.inflate(inflater, container, false);
+        binding = FragmentNuevaNoticiaBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -141,7 +138,7 @@ public class FullscreenPiloto extends Fragment {
         mVisible = true;
 
         mControlsView = binding.fullscreenContentControls;
-        mContentView = binding.layoutPilotoFull;
+        mContentView = binding.frameLayout4;
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -151,66 +148,44 @@ public class FullscreenPiloto extends Fragment {
             }
         });
 
-        binding.nombreEdit.setText(piloto.getNombre());
-        binding.apellidoEdit.setText(piloto.getApellidos());
-        binding.edadEdit.setText(String.valueOf(piloto.getEdad()));
-        binding.equipoEdit.setText(piloto.getEquipo());
-        binding.puntosEdit.setText(String.valueOf(piloto.getPuntos()));
-        binding.gpEdit.setText(String.valueOf(piloto.getGp_terminados()));
-        binding.victoriasEdit.setText(String.valueOf(piloto.getVictorias()));
-        binding.polesEdit.setText(String.valueOf(piloto.getPole_positions()));
-        binding.podiosEdit.setText(String.valueOf(piloto.getPodios()));
-
-        if (Usuario.getRol() != Rol.ADMIN) {
-            binding.nombreEdit.setFocusable(false);
-            binding.apellidoEdit.setFocusable(false);
-            binding.edadEdit.setFocusable(false);
-            binding.equipoEdit.setFocusable(false);
-            binding.puntosEdit.setFocusable(false);
-            binding.gpEdit.setFocusable(false);
-            binding.victoriasEdit.setFocusable(false);
-            binding.polesEdit.setFocusable(false);
-            binding.podiosEdit.setFocusable(false);
-        } else {
-            binding.guardar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    piloto.setNombre(binding.nombreEdit.getText().toString());
-                    piloto.setApellidos(binding.apellidoEdit.getText().toString());
-                    piloto.setEdad(Integer.parseInt(binding.edadEdit.getText().toString()));
-                    piloto.setEquipo(binding.equipoEdit.getText().toString());
-                    piloto.setPuntos(Float.parseFloat(binding.puntosEdit.getText().toString()));
-                    piloto.setGp_terminados(Integer.parseInt(binding.gpEdit.getText().toString()));
-                    piloto.setVictorias(Integer.parseInt(binding.victoriasEdit.getText().toString()));
-                    piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
-                    piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
-                    Log.d("piloto", "" + piloto.getId());
-
-                    daoPiloto.modificaPiloto(piloto);
-
-                    cerrarFragment();
-                }
-            });
-        }
-
-        binding.imageView2.setImageDrawable(imagenPiloto);
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-
-
-        binding.atras.setOnClickListener(new View.OnClickListener() {
+        binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cerrarFragment();
+                boolean error = true;
+                Noticia n = new Noticia();
+                n.setTitular(binding.titular.getText().toString());
+                n.setLink_noticia(binding.enlace.getText().toString());
+                n.setCuerpo(binding.cuerpo.getText().toString());
+
+                if (n.getTitular() == "" || n.getCuerpo() == "" || n.getLink_noticia() == "")
+                    Toast.makeText(getContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+                else {
+                    try {
+                        Date d = new Date();
+                        new URL(n.getLink_noticia()).toURI();
+                        n.setFech_creacion((long)(d.getTime() / 86400000));
+                        daoNoticia.addNoticia(n);
+                        cerrar();
+                    } catch (Exception e) {
+                        Log.d("::TAG", "" + e.getMessage());
+                        Toast.makeText(getContext(), "URL no válida", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
-
+        binding.button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cerrar();
+            }
+        });
+        // Upon interacting with UI controls, delay any scheduled hide()
+        // operations to prevent the jarring behavior of controls going away
+        // while interacting with the UI.
     }
 
-    private void cerrarFragment() {
-        //fragmentManager.saveBackStack("piloto");
+    private void cerrar() {
         fragmentManager.beginTransaction().remove(this).commit();
     }
 

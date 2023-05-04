@@ -71,7 +71,6 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
                 ft.setReorderingAllowed(true).commit();
             }
         });
-
     }
 
     @Override

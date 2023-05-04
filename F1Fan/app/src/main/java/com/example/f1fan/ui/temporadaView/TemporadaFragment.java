@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,9 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.f1fan.R;
+import com.example.f1fan.Utils;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
 import com.example.f1fan.modelo.pojos.BDestatica;
+import com.example.f1fan.modelo.pojos.Rol;
+import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.placeholder.PlaceholderContent;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A fragment representing a list of Items.
@@ -59,7 +64,7 @@ public class TemporadaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_temporada_list, container, false);
-
+        Utils.botonesHistorico(getActivity());
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -73,6 +78,13 @@ public class TemporadaFragment extends Fragment {
 
         }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Utils.botonesHistorico(getActivity());
     }
 
     @Override

@@ -3,6 +3,7 @@
     <style name="Widget.Theme.F1Fan.ButtonBar.Fullscreen" parent="">
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="android:fontFamily">@font/formula1_nomral</item>
     </style>
 
     <style name="navDrawer" parent="">

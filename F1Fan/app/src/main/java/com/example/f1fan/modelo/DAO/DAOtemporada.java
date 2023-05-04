@@ -35,9 +35,9 @@ public class DAOtemporada {
                                 Temporada t = new Temporada();
                                 t.setId(document.getId());
                                 t.setAnho(document.get("anho", Integer.class));
-                                t.setEquipo_campeon(document.get("equipo", String.class));
-                                t.setPiloto_campeon(document.get("piloto", String.class));
-                                t.setNum_carreras(document.get("n_carreras", Integer.class));
+                                t.setEquipo(document.get("equipo", String.class));
+                                t.setPiloto(document.get("piloto", String.class));
+                                t.setN_carreras(document.get("n_carreras", Integer.class));
 
                                 BDestatica.addTemporada(t);
                             }
@@ -53,7 +53,7 @@ public class DAOtemporada {
 
                     @Override
                     public void onSuccess(Object o) {
-                        Log.d("temporada", "DocumentSnapshot successfully written!");
+                        Log.d("::TAG", "DocumentSnapshot successfully written!" + t);
                         BDestatica.addTemporada(t);
                     }
                 })

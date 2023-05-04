@@ -36,7 +36,7 @@ public class MyRakingRecyclerViewAdapter extends RecyclerView.Adapter<MyRakingRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.puntos.setText(String.valueOf(mValues.get(position).getPuntos()));
         holder.piloto.setText(mValues.get(position).getNombre());
-        holder.puesto.setText(String.valueOf(position) + 1);
+        holder.puesto.setText(String.valueOf(position + 1));
 
         holder.vista.setOnClickListener(new View.OnClickListener() {
             @Override

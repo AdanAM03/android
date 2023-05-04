@@ -1,15 +1,21 @@
 package com.example.f1fan.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.appcompat.widget.Toolbar;
 
+import com.example.f1fan.MainActivity;
 import com.example.f1fan.R;
+import com.example.f1fan.modelo.pojos.Rol;
+import com.example.f1fan.modelo.pojos.Usuario;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,10 +66,40 @@ public class Inicio extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Toolbar t = getActivity().findViewById(R.id.toolbar);
+        t.setTitle("Inicio");
+        getActivity().findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Para un acceso completo registrese en la app", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        getActivity().findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Usuario.getRol() == Rol.ANONIMO)
+                    Snackbar.make(view, "Para un acceso completo registrese en la app", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                else
+                    Snackbar.make(view, "Todos los días nuevas noticias en F1 Fan", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+            }
+        });
+
+        if (getActivity().findViewById(R.id.add).isEnabled())
+            getActivity().findViewById(R.id.add).setVisibility(View.INVISIBLE);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inicio, container, false);
+        return inflater.inflate(R.layout.inicio, container, false);
     }
+
 }
