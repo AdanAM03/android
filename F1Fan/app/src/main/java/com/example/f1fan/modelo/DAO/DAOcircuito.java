@@ -22,7 +22,7 @@ public class DAOcircuito {
     }
 
     public void getCircuitos() {
-        fb.collection("circuitos").orderBy("orden", Query.Direction.ASCENDING)
+        fb.collection("circuitos").orderBy("orden", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
