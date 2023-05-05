@@ -27,5 +27,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Noticias"/>
 
+        <item
+            android:id="@+id/mapsFragment"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="Mapa"/>
+
     </group>
 </menu>

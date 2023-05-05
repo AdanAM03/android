@@ -1,7 +1,7 @@
 package com.example.f1fan.modelo.pojos;
 
 public class Circuito {
-    private Long id;
+    private String id;
     private String nombre;
     private float km_totales;
     private String hotlap;
@@ -11,7 +11,7 @@ public class Circuito {
     private double lat;
     private double lon;
 
-    public Circuito(Long id, String nombre, float km_totales, String hotlap, String victoria, String url_foto, int orden, double lat, double lon) {
+    public Circuito(String id, String nombre, float km_totales, String hotlap, String victoria, String url_foto, int orden, double lat, double lon) {
         this.id = id;
         this.nombre = nombre;
         this.km_totales = km_totales;
@@ -26,11 +26,11 @@ public class Circuito {
     public Circuito() {
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

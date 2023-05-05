@@ -89,7 +89,7 @@ public class Utils {
                             R.anim.fade_in,
                             R.anim.slide_out
                     );
-                    ft.replace(R.id.drawer_layout, new NuevaNoticiaFragment(a.getSupportFragmentManager(), new DAOnoticia()));
+                    ft.replace(R.id.nav_host_fragment_content_main, new NuevaNoticiaFragment(a.getSupportFragmentManager(), new DAOnoticia()));
                     ft.addToBackStack(null);
                     ft.setReorderingAllowed(true).commit();
                 }

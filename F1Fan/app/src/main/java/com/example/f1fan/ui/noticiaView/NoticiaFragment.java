@@ -3,13 +3,16 @@ package com.example.f1fan.ui.noticiaView;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +21,12 @@ import com.example.f1fan.R;
 import com.example.f1fan.Utils;
 import com.example.f1fan.modelo.DAO.DAOnoticia;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
+import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.placeholder.PlaceholderContent;
 import com.example.f1fan.ui.temporadaView.NuevaTemporadaFragment;
+import com.google.android.gms.common.data.DataBufferObserver;
 import com.google.android.material.snackbar.Snackbar;
 
 /**
@@ -33,6 +38,7 @@ public class NoticiaFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    private MyNoticiaRecyclerViewAdapter r;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -76,7 +82,8 @@ public class NoticiaFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyNoticiaRecyclerViewAdapter(new DAOnoticia(), getContext()));
+            r = new MyNoticiaRecyclerViewAdapter(new DAOnoticia(), getContext());
+            recyclerView.setAdapter(r);
         }
 
         Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
@@ -92,8 +99,10 @@ public class NoticiaFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("::TAG", "attached fragment");
         Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
         t.setTitle("Noticias");
         Utils.botonesNoticia(getActivity());
     }
+
 }

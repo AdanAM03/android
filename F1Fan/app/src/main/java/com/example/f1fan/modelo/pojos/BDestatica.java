@@ -26,6 +26,14 @@ public class BDestatica {
         pilotos.add(piloto);
     }
 
+    public static void addCircuito(Circuito c) {
+        circuitos.add(0, c);
+    }
+
+    public static ArrayList<Circuito> getCircuitos() {
+        return circuitos;
+    }
+
     public static void modificaPiloto(Piloto pilotoNuevo) {
         for (int index = 0; index < pilotos.size() - 1; index++) {
             if (pilotos.get(index).getId() == pilotoNuevo.getId()){

@@ -2,6 +2,7 @@ package com.example.f1fan.ui.noticiaView;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,8 @@ public class MyNoticiaRecyclerViewAdapter extends RecyclerView.Adapter<MyNoticia
         this.context = context;
     }
 
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -49,6 +53,7 @@ public class MyNoticiaRecyclerViewAdapter extends RecyclerView.Adapter<MyNoticia
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.titular.setText(mValues.get(position).getTitular());
         holder.cuerpo.setText(mValues.get(position).getCuerpo());
+
         holder.vista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.DAO.DAORanking;
+import com.example.f1fan.modelo.DAO.DAOcircuito;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.DAO.DAOnoticia;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             daOequipo.getEquipos();
             daOtemporada.getTemporadas();
             new DAORanking().getRanking();
+            new DAOcircuito().getCircuitos();
         }
         new DAOnoticia().getNoticias();
 
@@ -82,11 +84,12 @@ public class MainActivity extends AppCompatActivity {
         //} else {
 
             DrawerLayout drawer = binding.drawerLayout;
+
             NavigationView navigationView = binding.navView;
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.inicio, R.id.slideshowFragment, R.id.slideshowFragment2, R.id.noticiaFragment)
+                    R.id.inicio, R.id.slideshowFragment, R.id.slideshowFragment2, R.id.noticiaFragment, R.id.mapsFragment)
                     .setOpenableLayout(drawer)
                     .build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -94,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(navigationView, navController);
             Toolbar t = (Toolbar) findViewById(R.id.toolbar);
             t.setTitle("Inicio");
+
         //}
         notificaciones();
-        count++;
     }
 
     @Override

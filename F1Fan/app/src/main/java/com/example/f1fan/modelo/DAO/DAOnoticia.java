@@ -3,11 +3,14 @@ package com.example.f1fan.modelo.DAO;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Noticia;
 import com.example.f1fan.modelo.pojos.Piloto;
+import com.example.f1fan.ui.noticiaView.MyNoticiaRecyclerViewAdapter;
+import com.example.f1fan.ui.noticiaView.NoticiaFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,6 +20,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 public class DAOnoticia {
 
@@ -61,12 +66,12 @@ public class DAOnoticia {
     }
 
     public void addNoticia(Noticia n) {
+        BDestatica.addNoticia(n);
         fb.collection("noticias").add(n).addOnSuccessListener(new OnSuccessListener() {
 
                     @Override
                     public void onSuccess(Object o) {
                         Log.d("temporada", "DocumentSnapshot successfully written!");
-                        BDestatica.addNoticia(n);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -76,5 +81,6 @@ public class DAOnoticia {
                         Log.d("piloto", "Error writing document", e);
                     }
                 });
+
     }
 }
