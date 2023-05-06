@@ -38,7 +38,8 @@ public class DAOcircuito {
                                 c.setLon(document.get("lon", Double.class));
                                 c.setKm_totales(document.get("km", Float.class));
                                 c.setOrden(document.get("orden", Integer.class));
-                                c.setVictoria(document.get("vctoria", String.class));
+                                c.setVictoria(document.get("vic", String.class));
+                                c.setUrl_foto(document.get("url", String.class));
 
                                 BDestatica.addCircuito(c);
                             }

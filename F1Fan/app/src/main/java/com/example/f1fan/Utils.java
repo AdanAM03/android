@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class Utils {
     public static void botones(FragmentActivity a) {
+        a.findViewById(R.id.fab).setVisibility(View.VISIBLE);
         if (a.findViewById(R.id.add).isEnabled())
             a.findViewById(R.id.add).setVisibility(View.INVISIBLE);
         a.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
@@ -31,6 +32,7 @@ public class Utils {
     }
 
     public static void botonesPiloto(FragmentActivity a) {
+        a.findViewById(R.id.fab).setVisibility(View.VISIBLE);
         if (a.findViewById(R.id.add).isEnabled())
             a.findViewById(R.id.add).setVisibility(View.INVISIBLE);
 
@@ -44,6 +46,7 @@ public class Utils {
     }
 
     public static void botonesHistorico(FragmentActivity a) {
+        a.findViewById(R.id.fab).setVisibility(View.VISIBLE);
         if (Usuario.getRol() == Rol.ADMIN) {
             a.findViewById(R.id.add).setVisibility(View.VISIBLE);
             a.findViewById(R.id.add).setEnabled(true);
@@ -76,7 +79,13 @@ public class Utils {
         });
     }
 
+    public static void botonesMapa(FragmentActivity a) {
+        a.findViewById(R.id.add).setVisibility(View.INVISIBLE);
+        a.findViewById(R.id.fab).setVisibility(View.INVISIBLE);
+    }
+
     public static void botonesNoticia(FragmentActivity a) {
+        a.findViewById(R.id.fab).setVisibility(View.VISIBLE);
         if (Usuario.getRol() == Rol.ADMIN) {
             a.findViewById(R.id.add).setVisibility(View.VISIBLE);
             a.findViewById(R.id.add).setEnabled(true);

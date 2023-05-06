@@ -1,5 +1,9 @@
 package com.example.f1fan.modelo.pojos;
 
+import androidx.annotation.Nullable;
+
+import com.google.android.gms.maps.model.LatLng;
+
 public class Circuito {
     private String id;
     private String nombre;
@@ -96,5 +100,15 @@ public class Circuito {
 
     public void setLon(double lon) {
         this.lon = lon;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        boolean result = false;
+        Circuito c = (Circuito) obj;
+        if (c.getLat() == this.getLat() && c.getLon() == this.getLon())
+            result = true;
+
+        return result;
     }
 }

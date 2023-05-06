@@ -1,17 +1,26 @@
 package com.example.f1fan.ui.recyclerView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentPilotoBinding;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
@@ -46,17 +55,33 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
         holder.nombre.setText(mValues.get(position).getNombre() + " " + mValues.get(position).getApellidos());
         holder.victorias.setText("Victorias: " + mValues.get(position).getVictorias());
         holder.edad.setText("Edad: " + String.valueOf(mValues.get(position).getEdad()));
-        Drawable d = null;
 
-        try {
-            d = ContextCompat.getDrawable(context, R.drawable.class.getField(mValues.get(position).getApellidos().toLowerCase().replace(" ", "")).getInt(null));
-        } catch (Exception e) {
-            Log.d("package:mine", "" + e.getMessage());
-            //throw new RuntimeException(e);
+        final Bitmap[] finalD = new Bitmap[1];
+
+
+        try{
+
+            Glide.with(context)
+                    .asBitmap()
+                    .load(mValues.get(position).getUrl_foto())
+
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            holder.foto.setImageBitmap(resource);
+                            finalD[0] = resource;
+
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                        }
+                    });
+
+
+        }catch (Exception e){
+            throw new RuntimeException(e);
         }
-        holder.foto.setImageDrawable(d);
-
-        Drawable finalD = d;
         holder.vista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +91,7 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
                         R.anim.fade_in,
                         R.anim.slide_out
                 );
-                ft.replace(R.id.drawer_layout, new FullscreenPiloto(mValues.get(position), finalD, fragmentManager, daoPiloto));
+                ft.replace(R.id.drawer_layout, new FullscreenPiloto(mValues.get(position), finalD[0], fragmentManager, daoPiloto));
                 ft.addToBackStack("piloto");
                 ft.setReorderingAllowed(true).commit();
             }

@@ -7,9 +7,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,14 +22,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentFullscreenPilotoBinding;
-import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.pojos.Piloto;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
-import com.google.android.material.snackbar.Snackbar;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -48,12 +45,12 @@ public class FullscreenPiloto extends Fragment {
     private static final int UI_ANIMATION_DELAY = 300;
     private Piloto piloto;
     private DAOpiloto daoPiloto;
-    private Drawable imagenPiloto;
+    private Bitmap imagenPiloto;
     private EditText[] datos;
     private final Handler mHideHandler = new Handler(Looper.myLooper());
     private FragmentManager fragmentManager;
 
-    public FullscreenPiloto(Piloto piloto, Drawable drawable, FragmentManager fragmentManager, DAOpiloto dao) {
+    public FullscreenPiloto(Piloto piloto, Bitmap drawable, FragmentManager fragmentManager, DAOpiloto dao) {
         this.piloto = piloto;
         imagenPiloto = drawable;
         this.fragmentManager = fragmentManager;
@@ -193,7 +190,7 @@ public class FullscreenPiloto extends Fragment {
             });
         }
 
-        binding.imageView2.setImageDrawable(imagenPiloto);
+        binding.imageView2.setImageBitmap(imagenPiloto);
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.

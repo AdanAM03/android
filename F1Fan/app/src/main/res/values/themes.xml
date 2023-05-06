@@ -19,11 +19,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.F1Fan.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+    <style name="Theme.F1Fan.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:fontFamily">@font/formula1_nomral</item>
     </style>
 
-    <style name="Theme.F1Fan.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+    <style name="Theme.F1Fan.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:fontFamily">@font/formula1_nomral</item>
     </style>
 
@@ -31,5 +31,10 @@
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="android:fontFamily">@font/formula1_nomral</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.F1Fan" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 </resources>

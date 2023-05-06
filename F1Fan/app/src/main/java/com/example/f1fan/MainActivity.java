@@ -2,8 +2,10 @@ package com.example.f1fan;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
@@ -34,20 +36,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.f1fan.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.rpc.context.AttributeContext;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    private Usuario user = new Usuario(null);
+    private Usuario user = new Usuario();
 
     public static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user.setRol(Rol.ADMIN);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         if (user.getRol() != Rol.ANONIMO) {
             DAOtemporada daOtemporada = new DAOtemporada();
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        //if (user.getRol() == Rol.ANONIMO) {
+
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,38 +84,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.add).setVisibility(View.INVISIBLE);
-            //setContentView(R.layout.fragment_piloto_list);
 
-        //} else {
+        DrawerLayout drawer = binding.drawerLayout;
 
-            DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.navView;
+        if (user.getRol() == Rol.ANONIMO) {
+            navigationView.getMenu().getItem(1).setEnabled(false);
+            navigationView.getMenu().getItem(2).setEnabled(false);
+            navigationView.getMenu().getItem(4).setEnabled(false);
+        }
 
-            NavigationView navigationView = binding.navView;
-            // Passing each menu ID as a set of Ids because each
-            // menu should be considered as top level destinations.
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.inicio, R.id.slideshowFragment, R.id.slideshowFragment2, R.id.noticiaFragment, R.id.mapsFragment)
-                    .setOpenableLayout(drawer)
-                    .build();
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-            NavigationUI.setupWithNavController(navigationView, navController);
-            Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-            t.setTitle("Inicio");
 
-        //}
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+           R.id.inicio, R.id.slideshowFragment, R.id.slideshowFragment2, R.id.noticiaFragment, R.id.mapsFragment)
+           .setOpenableLayout(drawer)
+           .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
+        t.setTitle("Inicio");
+
+
+
         notificaciones();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.setGroupEnabled(1, false);
-        // Inflate the menu; this adds items to the action bar if it is present
         getMenuInflater().inflate(R.menu.main, menu);
-        if (user.getRol() == Rol.ANONIMO) {
-            findViewById(R.id.slideshowFragment2).setEnabled(false);
-            findViewById(R.id.slideshowFragment).setEnabled(false);
-        }
+        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
+        t.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                Usuario.setUsuario(null);
+                user.setEmail("");
+                user.setPasswd("");
+                user.setRol(null);
+                finish();
+                onBackPressed();
+                return false;
+            }
+        });
         return true;
     }
 
@@ -154,7 +170,4 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
-
 }

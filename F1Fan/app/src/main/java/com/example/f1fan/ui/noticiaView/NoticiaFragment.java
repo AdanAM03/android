@@ -89,10 +89,6 @@ public class NoticiaFragment extends Fragment {
         Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
         t.setTitle("Noticias");
 
-        if (Usuario.getRol() == Rol.ANONIMO) {
-            getActivity().findViewById(R.id.slideshowFragment2).setEnabled(false);
-            getActivity().findViewById(R.id.slideshowFragment).setEnabled(false);
-        }
         return view;
     }
 

@@ -1,6 +1,9 @@
 package com.example.f1fan.modelo.pojos;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class BDestatica {
     private static ArrayList<Circuito> circuitos = new ArrayList<>();
@@ -27,6 +30,7 @@ public class BDestatica {
     }
 
     public static void addCircuito(Circuito c) {
+        Log.d("::TAG", "" + c.getNombre());
         circuitos.add(0, c);
     }
 

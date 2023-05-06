@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +25,6 @@ import com.example.f1fan.databinding.FragmentFullscreenEquipoBinding;
 import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.pojos.Equipo;
-import com.example.f1fan.modelo.pojos.Piloto;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
 
@@ -38,13 +37,13 @@ public class FullscreenFragmentEquipo extends Fragment {
         private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler(Looper.myLooper());
-    private final Drawable imagenEquipo;
+    private final Bitmap imagenEquipo;
     private BD bd = new BD();
     private final Equipo equipo;
     private FragmentManager fragmentManager;
     private DAOequipo daoEquipo;
 
-    public FullscreenFragmentEquipo(Equipo equipo, Drawable drawable, FragmentManager fragmentManager, DAOequipo daoEquipo) {
+    public FullscreenFragmentEquipo(Equipo equipo, Bitmap drawable, FragmentManager fragmentManager, DAOequipo daoEquipo) {
         this.equipo = equipo;
         imagenEquipo = drawable;
         this.fragmentManager = fragmentManager;
@@ -139,7 +138,7 @@ public class FullscreenFragmentEquipo extends Fragment {
         binding.victoriasEquipoEdit.setText(String.valueOf(equipo.getVictorias()));
         binding.teamPrincipalEdit.setText(equipo.getTeam_principal());
         binding.nombreEquipoEdit.setText(equipo.getNombre());
-        binding.imagenEquipoFull.setImageDrawable(imagenEquipo);
+        binding.imagenEquipoFull.setImageBitmap(imagenEquipo);
 
         if(Usuario.getRol() != Rol.ADMIN) {
             binding.anhosEquipoEdit.setFocusable(false);
