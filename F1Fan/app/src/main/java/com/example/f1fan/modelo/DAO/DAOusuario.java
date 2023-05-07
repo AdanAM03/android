@@ -61,6 +61,7 @@ public class DAOusuario {
                                     u.setRol(Rol.REGISTRADO);
                                 else
                                     u.setRol(Rol.ADMIN);
+                                Log.d("::TAG", "" + u.getRol());
                             }
                         } else {
                             Log.d("usuarios", "Error getting documents: ", task.getException());
