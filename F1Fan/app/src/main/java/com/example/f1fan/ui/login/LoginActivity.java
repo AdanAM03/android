@@ -62,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        binding.textView17.setTextSize(40);
+
     }
 
 
@@ -93,7 +95,9 @@ public class LoginActivity extends AppCompatActivity {
                             DAOusuario d = new DAOusuario();
                             d.getRol(u);
 
-                            navegar[0] = true;
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            onActivityResult(0, 0, null);
+                            startActivity(i);
 
                         } else {
                             if (task.getException().getMessage() == "The password is invalid or the user does not have a password.")
@@ -107,6 +111,10 @@ public class LoginActivity extends AppCompatActivity {
 
                                 d.registrarUsuario(u);
 
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                onActivityResult(0, 0, null);
+                                startActivity(i);
+
                                 Log.d("::TAG", "" + task.getException().getMessage());
                             }
                         }
@@ -114,11 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
-        if (navegar[0]) {
-            Intent i = new Intent(this, MainActivity.class);
-            onActivityResult(0, 0, null);
-            startActivity(i);
-        }
+
     }
 
     public void borrarCampos() {

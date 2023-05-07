@@ -1,33 +1,20 @@
 package com.example.f1fan.ui.noticiaView;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.f1fan.modelo.DAO.DAOnoticia;
 import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Noticia;
 import com.example.f1fan.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.f1fan.databinding.FragmentNoticiaBinding;
-
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class MyNoticiaRecyclerViewAdapter extends RecyclerView.Adapter<MyNoticiaRecyclerViewAdapter.ViewHolder> {
 
     private final List<Noticia> mValues;

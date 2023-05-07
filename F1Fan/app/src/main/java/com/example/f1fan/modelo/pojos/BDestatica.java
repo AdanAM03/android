@@ -86,4 +86,15 @@ public class BDestatica {
     public static ArrayList<Noticia> getNoticias() {
         return noticias;
     }
+
+    public static boolean comprobarDatos() {
+        boolean datos = true;
+
+        if (pilotos.size() == 0 || equipos.size() == 0 ||temporadas.size() == 0
+        || pilotosRanking.size() == 0 || circuitos.size() == 0)
+            datos = false;
+
+
+        return datos;
+    }
 }

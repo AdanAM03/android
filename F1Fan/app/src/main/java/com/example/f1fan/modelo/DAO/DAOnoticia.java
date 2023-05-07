@@ -1,16 +1,10 @@
 package com.example.f1fan.modelo.DAO;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Noticia;
-import com.example.f1fan.modelo.pojos.Piloto;
-import com.example.f1fan.ui.noticiaView.MyNoticiaRecyclerViewAdapter;
-import com.example.f1fan.ui.noticiaView.NoticiaFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,10 +12,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
 
 public class DAOnoticia {
 

@@ -68,6 +68,6 @@ public class SlideshowFragment2 extends Fragment {
     public void onResume() {
         super.onResume();
         Toolbar t = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        t.setTitle("Equipos y pilotos");
+        t.setTitle("Ranking e histórico");
     }
 }

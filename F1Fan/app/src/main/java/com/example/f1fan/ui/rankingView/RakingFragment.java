@@ -1,26 +1,17 @@
 package com.example.f1fan.ui.rankingView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.f1fan.R;
 import com.example.f1fan.Utils;
 import com.example.f1fan.modelo.pojos.BDestatica;
-import com.example.f1fan.modelo.pojos.Rol;
-import com.example.f1fan.modelo.pojos.Usuario;
-import com.example.f1fan.placeholder.PlaceholderContent;
-import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A fragment representing a list of Items.

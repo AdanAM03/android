@@ -1,6 +1,5 @@
 package com.example.f1fan.ui.slideshow;
 
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

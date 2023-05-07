@@ -1,46 +1,20 @@
 package com.example.f1fan.ui.noticiaView;
 
-import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.view.ActionProvider;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentNuevaNoticiaBinding;
 import com.example.f1fan.modelo.DAO.DAOnoticia;
-import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Noticia;
-import com.example.f1fan.ui.Inicio;
-import com.google.android.material.internal.NavigationMenu;
-import com.google.android.material.internal.NavigationMenuItemView;
-import com.google.android.material.internal.NavigationMenuView;
-
 import java.net.URL;
 import java.util.Date;
 

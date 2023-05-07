@@ -1,27 +1,16 @@
 package com.example.f1fan.ui;
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.appcompat.widget.Toolbar;
-
-import com.example.f1fan.MainActivity;
 import com.example.f1fan.R;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
 import com.google.android.material.snackbar.Snackbar;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Inicio#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Inicio extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match

@@ -1,31 +1,24 @@
 package com.example.f1fan;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.Toast;
-
-import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.DAO.DAORanking;
 import com.example.f1fan.modelo.DAO.DAOcircuito;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.DAO.DAOnoticia;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
+import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
-import com.example.f1fan.ui.recyclerView.MypilotoRecyclerViewAdapter;
-import com.example.f1fan.ui.recyclerView.pilotoFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -34,11 +27,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.f1fan.databinding.ActivityMainBinding;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.rpc.context.AttributeContext;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -54,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        if (user.getRol() != Rol.ANONIMO) {
+        if (user.getRol() != Rol.ANONIMO && !BDestatica.comprobarDatos()) {
             DAOtemporada daOtemporada = new DAOtemporada();
             DAOequipo daOequipo = new DAOequipo();
             DAOpiloto daOpiloto = new DAOpiloto();
@@ -64,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
             new DAORanking().getRanking();
             new DAOcircuito().getCircuitos();
         }
-        new DAOnoticia().getNoticias();
+
+        if (BDestatica.getNoticias().size() == 0)
+            new DAOnoticia().getNoticias();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

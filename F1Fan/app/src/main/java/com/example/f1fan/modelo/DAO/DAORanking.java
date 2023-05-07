@@ -7,8 +7,6 @@ import androidx.annotation.NonNull;
 import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.PilotoRanking;
-import com.example.f1fan.modelo.pojos.Ranking;
-import com.example.f1fan.modelo.pojos.Temporada;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
