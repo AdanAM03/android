@@ -110,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
         t.getMenu().getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
+                if (Usuario.getUsuario().isAnonymous())
+                    Usuario.getUsuario().delete();
+
                 Usuario.setUsuario(null);
                 user.setEmail("");
                 user.setPasswd("");

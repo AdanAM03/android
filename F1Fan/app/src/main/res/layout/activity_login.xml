@@ -100,4 +100,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/a2"
         app:strokeWidth="2dp" />
+
+    <TextView
+        android:id="@+id/resetPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="636dp"
+        android:text="Olvidé la contraseña"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

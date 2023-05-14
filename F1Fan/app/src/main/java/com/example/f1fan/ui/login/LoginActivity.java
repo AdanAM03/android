@@ -1,9 +1,12 @@
 package com.example.f1fan.ui.login;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.f1fan.MainActivity;
+import com.example.f1fan.R;
 import com.example.f1fan.modelo.DAO.DAOusuario;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
@@ -12,11 +15,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.navigation.ui.AppBarConfiguration;
@@ -63,9 +69,20 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         binding.textView17.setTextSize(40);
+        binding.resetPassword.setClickable(true);
+        binding.resetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = binding.editTextText.getText().toString();
+                if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    mAuth.sendPasswordResetEmail(email);
+                    Snackbar.make(v, "Email de recuperación enviado", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                } else
+                    Snackbar.make(v, "Introduce el email", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
 
     }
-
 
     public void logIn() {
         email = binding.editTextText.getText().toString();
@@ -103,19 +120,44 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.getException().getMessage() == "The password is invalid or the user does not have a password.")
                                 Toast.makeText(LoginActivity.this, "Contraseña o email incorrecto", Toast.LENGTH_SHORT).show();
                             else {
-                                mAuth.createUserWithEmailAndPassword(email, passwd);
-                                DAOusuario d = new DAOusuario();
-                                Usuario u = new Usuario();
-                                u.setEmail(email);
-                                u.setPasswd(passwd);
+                                final FirebaseUser[] user = new FirebaseUser[1];
+                                mAuth.createUserWithEmailAndPassword(email, passwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        user[0] = mAuth.getCurrentUser();
+                                        user[0].sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Verification email sent to " + user[0].getEmail(),
+                                                            Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Log.d("::TAG", task.getException().getMessage());
+                                                    Toast.makeText(getApplicationContext(),
+                                                            "Failed to send verification email.",
+                                                            Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
 
-                                d.registrarUsuario(u);
+                                user[0] = mAuth.getCurrentUser();
 
-                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                onActivityResult(0, 0, null);
-                                startActivity(i);
+                                if (user[0].isEmailVerified()) {
+                                    DAOusuario d = new DAOusuario();
+                                    Usuario u = new Usuario();
+                                    u.setEmail(email);
+                                    u.setPasswd(passwd);
 
-                                Log.d("::TAG", "" + task.getException().getMessage());
+                                    d.registrarUsuario(u);
+
+                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    onActivityResult(0, 0, null);
+                                    startActivity(i);
+                                } else
+                                    Toast.makeText(LoginActivity.this, "Email de verificación enviado", Toast.LENGTH_SHORT).show();
                             }
                         }
                         borrarCampos();
@@ -139,15 +181,12 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Usuario u = new Usuario();
                             u.setRol(Rol.ANONIMO);
+                            u.setUsuario(user);
                             Intent i = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(i);
-                        } else {
-                            // If sign in fails, display a message to the user.
-
                         }
                     }
                 });
-
     }
 
 }
