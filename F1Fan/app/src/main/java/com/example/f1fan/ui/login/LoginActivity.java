@@ -105,16 +105,19 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Usuario u = new Usuario();
-                            u.setUsuario(user);
-                            u.setEmail(email);
-                            u.setPasswd(passwd);
-                            DAOusuario d = new DAOusuario();
-                            d.getRol(u);
+                            if (user.isEmailVerified()) {
+                                Usuario u = new Usuario();
+                                u.setUsuario(user);
+                                u.setEmail(email);
+                                u.setPasswd(passwd);
+                                DAOusuario d = new DAOusuario();
+                                d.getRol(u);
 
-                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                            onActivityResult(0, 0, null);
-                            startActivity(i);
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                onActivityResult(0, 0, null);
+                                startActivity(i);
+                            } else
+                                Toast.makeText(LoginActivity.this, "Verifique su e-mail", Toast.LENGTH_SHORT).show();
 
                         } else {
                             if (task.getException().getMessage() == "The password is invalid or the user does not have a password.")
@@ -129,9 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Toast.makeText(getApplicationContext(),
-                                                            "Verification email sent to " + user[0].getEmail(),
-                                                            Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(LoginActivity.this, "E-mail de verificación enviado", Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     Log.d("::TAG", task.getException().getMessage());
                                                     Toast.makeText(getApplicationContext(),
@@ -142,22 +143,6 @@ public class LoginActivity extends AppCompatActivity {
                                         });
                                     }
                                 });
-
-                                user[0] = mAuth.getCurrentUser();
-
-                                if (user[0].isEmailVerified()) {
-                                    DAOusuario d = new DAOusuario();
-                                    Usuario u = new Usuario();
-                                    u.setEmail(email);
-                                    u.setPasswd(passwd);
-
-                                    d.registrarUsuario(u);
-
-                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                    onActivityResult(0, 0, null);
-                                    startActivity(i);
-                                } else
-                                    Toast.makeText(LoginActivity.this, "Email de verificación enviado", Toast.LENGTH_SHORT).show();
                             }
                         }
                         borrarCampos();
