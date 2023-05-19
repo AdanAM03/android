@@ -178,6 +178,9 @@ public class FullscreenPiloto extends Fragment {
             binding.victoriasEdit.setText(String.valueOf(piloto.getVictorias()));
             binding.polesEdit.setText(String.valueOf(piloto.getPole_positions()));
             binding.podiosEdit.setText(String.valueOf(piloto.getPodios()));
+        } else if (BDestatica.getEquipos().size() >= 10) {
+            Toast.makeText(getContext(), "No se pueden añadir más pilotos (max 2 por equipo)", Toast.LENGTH_SHORT).show();
+            cerrarFragment();
         }
 
         if (Usuario.getRol() != Rol.ADMIN) {
