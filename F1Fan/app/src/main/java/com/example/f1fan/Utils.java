@@ -47,7 +47,7 @@ public class Utils {
                 @Override
                 public void onClick(View v) {
                     if (BDestatica.getEquipos().size() >= 10) {
-                        Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 2 por equipo)", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 10 equipos)", Toast.LENGTH_SHORT).show();
                     } else {
                         FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
                                 R.anim.slide_in,
