@@ -1,6 +1,7 @@
 package com.example.f1fan;
 
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.DAO.DAOnoticia;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
+import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.ui.equipoView.FullscreenFragmentEquipo;
@@ -44,15 +46,19 @@ public class Utils {
             a.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                            R.anim.slide_in,
-                            R.anim.fade_out,
-                            R.anim.fade_in,
-                            R.anim.slide_out
-                    );
-                    ft.replace(R.id.nav_host_fragment_content_main, new FullscreenFragmentEquipo(null, null, a.getSupportFragmentManager(), new DAOequipo()));
-                    ft.addToBackStack(null);
-                    ft.setReorderingAllowed(true).commit();
+                    if (BDestatica.getEquipos().size() >= 10) {
+                        Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 2 por equipo)", Toast.LENGTH_SHORT).show();
+                    } else {
+                        FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                                R.anim.slide_in,
+                                R.anim.fade_out,
+                                R.anim.fade_in,
+                                R.anim.slide_out
+                        );
+                        ft.replace(R.id.nav_host_fragment_content_main, new FullscreenFragmentEquipo(null, null, a.getSupportFragmentManager(), new DAOequipo()));
+                        ft.addToBackStack(null);
+                        ft.setReorderingAllowed(true).commit();
+                    }
                 }
             });
         }
@@ -79,15 +85,19 @@ public class Utils {
             a.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                            R.anim.slide_in,
-                            R.anim.fade_out,
-                            R.anim.fade_in,
-                            R.anim.slide_out
-                    );
-                    ft.replace(R.id.nav_host_fragment_content_main, new FullscreenPiloto(null, null, a.getSupportFragmentManager(), new DAOpiloto()));
-                    ft.addToBackStack(null);
-                    ft.setReorderingAllowed(true).commit();
+                    if (BDestatica.getEquipos().size() >= 10) {
+                        Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 2 por equipo)", Toast.LENGTH_SHORT).show();
+                    } else {
+                        FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                                R.anim.slide_in,
+                                R.anim.fade_out,
+                                R.anim.fade_in,
+                                R.anim.slide_out
+                        );
+                        ft.replace(R.id.nav_host_fragment_content_main, new FullscreenPiloto(null, null, a.getSupportFragmentManager(), new DAOpiloto()));
+                        ft.addToBackStack(null);
+                        ft.setReorderingAllowed(true).commit();
+                    }
                 }
             });
         }

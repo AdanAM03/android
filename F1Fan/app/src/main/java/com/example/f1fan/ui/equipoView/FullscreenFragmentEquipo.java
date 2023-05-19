@@ -153,10 +153,7 @@ public class FullscreenFragmentEquipo extends Fragment {
 
         if (equipo != null)
             binding.loadImage.setVisibility(View.INVISIBLE);
-        else if (BDestatica.getEquipos().size() >= 10) {
-            Toast.makeText(getContext(), "No se pueden añadir más equipos (max 10)", Toast.LENGTH_SHORT).show();
-            cerrarFragment();
-        }
+
 
         Utils.botonesMapa(getActivity());
 
@@ -316,6 +313,11 @@ public class FullscreenFragmentEquipo extends Fragment {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
+
+        if (BDestatica.getEquipos().size() >= 10) {
+            Toast.makeText(getContext(), "No se pueden añadir más equipos (max 10)", Toast.LENGTH_SHORT).show();
+            cerrarFragment();
+        }
     }
 
     @Override
