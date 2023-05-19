@@ -19,9 +19,16 @@ public class DAOequipo {
     private BD bd;
     private FirebaseFirestore fb;
 
+    private DAOpiloto daoPiloto;
+
     public DAOequipo() {
         bd = new BD();
         fb = bd.getDB();
+        daoPiloto = new DAOpiloto();
+    }
+
+    public void deleteTeam(Equipo e) {
+        daoPiloto.deleteFromTeam(e);
     }
 
     public void getEquipos() {
@@ -32,7 +39,6 @@ public class DAOequipo {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("equipo", document.getId() + " => " + document.getData());
                                 Equipo e = new Equipo();
                                 e.setId(document.getId());
                                 e.setNombre(document.get("nombre", String.class));
@@ -44,7 +50,6 @@ public class DAOequipo {
                                 BDestatica.addEquipo(e);
                             }
                         } else {
-                            Log.d("piloto", "Error getting documents: ", task.getException());
                         }
                     }
                 });
@@ -57,7 +62,6 @@ public class DAOequipo {
 
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("equipo", "DocumentSnapshot successfully written!");
                         BDestatica.modificaEquipo(equipoNuevo);
                     }
                 })
@@ -65,9 +69,12 @@ public class DAOequipo {
 
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("equipo", "Error writing document", e);
                     }
                 });
+    }
+
+    public void add(Equipo e) {
+        fb.collection("equipos").add(e);
     }
 
 }

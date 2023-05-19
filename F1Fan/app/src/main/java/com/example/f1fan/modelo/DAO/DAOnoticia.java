@@ -33,12 +33,10 @@ public class DAOnoticia {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             if (task.getResult().size() < 1) {
-                                Log.d("::TAG", "" + fecha + fecha);
                                 fecha--;
                                 getNoticias();
                             }
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("noticia", document.getId() + " => " + document.getData());
                                 Noticia n = new Noticia();
 
                                 n.setId(document.getId());
@@ -62,7 +60,6 @@ public class DAOnoticia {
 
                     @Override
                     public void onSuccess(Object o) {
-                        Log.d("temporada", "DocumentSnapshot successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

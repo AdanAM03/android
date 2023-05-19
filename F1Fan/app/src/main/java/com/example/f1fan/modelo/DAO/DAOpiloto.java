@@ -6,14 +6,21 @@ import androidx.annotation.NonNull;
 
 import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.pojos.BDestatica;
+import com.example.f1fan.modelo.pojos.Equipo;
 import com.example.f1fan.modelo.pojos.Piloto;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAOpiloto {
     private BD bd;
@@ -24,6 +31,28 @@ public class DAOpiloto {
         fb = bd.getDB();
     }
 
+    public void deleteFromTeam(Equipo e) {
+        try {
+            Log.d("::TAG", "entra borrado " + fb.collection("pilotos").whereEqualTo("equipo", e.getNombre()));
+
+            fb.collection("pilotos").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.get("equipo", String.class).equalsIgnoreCase(e.getNombre()))
+                                        fb.collection("pilotos").document(document.getId()).delete();
+                                }
+                                fb.collection("equipos").document(e.getId()).delete();
+                                BDestatica.deleteTeam(e);
+                            }
+                        }
+                    });
+        } catch (Exception ex) {
+            Log.d("::TAG", "error: " + ex.getMessage());
+        }
+    }
     public void getPilotos() {
         fb.collection("pilotos")
                 .get()
@@ -32,7 +61,6 @@ public class DAOpiloto {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("piloto", document.getId() + " => " + document.getData());
                                 Piloto p = new Piloto();
                                 p.setId(document.getId());
                                 p.setNombre(document.get("nombre", String.class));

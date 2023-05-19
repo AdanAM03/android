@@ -31,7 +31,7 @@
         android:ems="10"
         android:fontFamily="@font/formula1_nomral"
         android:inputType="number"
-        android:text="Name"
+        android:hint="Años compitiendo en F1..."
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +46,7 @@
         android:ems="10"
         android:fontFamily="@font/formula1_nomral"
         android:inputType="number"
-        android:text="Name"
+        android:hint="Victorias..."
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +74,7 @@
         android:ems="10"
         android:fontFamily="@font/formula1_nomral"
         android:inputType="text"
-        android:text="Name"
+        android:hint="Jefe de equipo..."
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -102,7 +102,7 @@
         android:ems="10"
         android:fontFamily="@font/formula1_nomral"
         android:inputType="text"
-        android:text="Name"
+        android:hint="Nombre del equipo..."
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -159,6 +159,36 @@
         android:src="?attr/homeAsUpIndicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/deleteTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="132dp"
+        android:elevation="10dp"
+        android:insetLeft="0dp"
+        android:text="Eliminar"
+        android:textColor="@color/black"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp" />
+
+    <Button
+        android:id="@+id/loadImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp"
+        android:text="Subir imagen"
+
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="1dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

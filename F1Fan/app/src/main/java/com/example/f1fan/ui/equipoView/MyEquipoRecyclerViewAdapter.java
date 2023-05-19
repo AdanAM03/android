@@ -23,6 +23,8 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.f1fan.R;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.pojos.Equipo;
+import com.example.f1fan.modelo.pojos.Rol;
+import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.placeholder.PlaceholderContent.PlaceholderItem;
 import com.example.f1fan.databinding.FragmentEquipoBinding;
 
@@ -85,20 +87,22 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         }catch (Exception e){
             throw new RuntimeException(e);
         }
-        holder.vista.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = fragmentManager.beginTransaction().setCustomAnimations(
-                        R.anim.slide_in,
-                        R.anim.fade_out,
-                        R.anim.fade_in,
-                        R.anim.slide_out
-                );
-                ft.replace(R.id.drawer_layout, new FullscreenFragmentEquipo(mValues.get(position), finalD[0], fragmentManager, daoEquipo));
-                ft.addToBackStack(null);
-                ft.setReorderingAllowed(false).commit();
-            }
-        });
+        if (Usuario.getRol() == Rol.ADMIN) {
+            holder.vista.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction ft = fragmentManager.beginTransaction().setCustomAnimations(
+                            R.anim.slide_in,
+                            R.anim.fade_out,
+                            R.anim.fade_in,
+                            R.anim.slide_out
+                    );
+                    ft.replace(R.id.drawer_layout, new FullscreenFragmentEquipo(mValues.get(position), finalD[0], fragmentManager, daoEquipo));
+                    ft.addToBackStack(null);
+                    ft.setReorderingAllowed(false).commit();
+                }
+            });
+        }
 
     }
 

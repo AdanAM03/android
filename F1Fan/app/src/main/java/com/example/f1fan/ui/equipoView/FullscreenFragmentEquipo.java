@@ -10,23 +10,41 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.example.f1fan.Utils;
 import com.example.f1fan.databinding.FragmentFullscreenEquipoBinding;
 import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.DAO.DAOequipo;
+import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Equipo;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -39,9 +57,10 @@ public class FullscreenFragmentEquipo extends Fragment {
     private final Handler mHideHandler = new Handler(Looper.myLooper());
     private final Bitmap imagenEquipo;
     private BD bd = new BD();
-    private final Equipo equipo;
+    private Equipo equipo;
     private FragmentManager fragmentManager;
     private DAOequipo daoEquipo;
+    private Uri img;
 
     public FullscreenFragmentEquipo(Equipo equipo, Bitmap drawable, FragmentManager fragmentManager, DAOequipo daoEquipo) {
         this.equipo = equipo;
@@ -131,35 +150,68 @@ public class FullscreenFragmentEquipo extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mVisible = true;
 
+        Utils.botonesMapa(getActivity());
+
         mControlsView = binding.fullscreenContentControls;
         mContentView = binding.layoutEquipoFull;
 
-        binding.anhosEquipoEdit.setText(String.valueOf(equipo.getAnhos_activo()));
-        binding.victoriasEquipoEdit.setText(String.valueOf(equipo.getVictorias()));
-        binding.teamPrincipalEdit.setText(equipo.getTeam_principal());
-        binding.nombreEquipoEdit.setText(equipo.getNombre());
-        binding.imagenEquipoFull.setImageBitmap(imagenEquipo);
+        if (equipo != null) {
 
-        if(Usuario.getRol() != Rol.ADMIN) {
+            binding.anhosEquipoEdit.setText(String.valueOf(equipo.getAnhos_activo()));
+            binding.victoriasEquipoEdit.setText(String.valueOf(equipo.getVictorias()));
+            binding.teamPrincipalEdit.setText(equipo.getTeam_principal());
+            binding.nombreEquipoEdit.setText(equipo.getNombre());
+            binding.imagenEquipoFull.setImageBitmap(imagenEquipo);
+
             binding.anhosEquipoEdit.setFocusable(false);
             binding.victoriasEquipoEdit.setFocusable(false);
             binding.teamPrincipalEdit.setFocusable(false);
             binding.nombreEquipoEdit.setFocusable(false);
             binding.guardarEquipo.setClickable(false);
-        } else
+        }
             binding.guardarEquipo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    boolean modifica = equipo != null;
+
+                    if (!modifica)
+                        equipo = new Equipo();
+
                     equipo.setNombre(binding.nombreEquipoEdit.getText().toString());
                     equipo.setTeam_principal(binding.teamPrincipalEdit.getText().toString());
                     equipo.setVictorias(Integer.parseInt(binding.victoriasEquipoEdit.getText().toString()));
                     equipo.setAnhos_activo(Integer.parseInt(binding.anhosEquipoEdit.getText().toString()));
 
-                    daoEquipo.modificaEquipo(equipo);
+                    if (modifica)
+                        daoEquipo.modificaEquipo(equipo);
+                    else {
+                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference riversRef = storageRef.child("equipos/" + equipo.getNombre());
+                        riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                storageRef.child("equipos/" + equipo.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        equipo.setUrl_foto(uri.toString());
+                                        daoEquipo.add(equipo);
+                                    }
+                                });
+                            }
+                        });
+                    }
 
                     cerrarFragment();
                 }
             });
+        binding.loadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cargarImagen();
+            }
+        });
+
 
 
         binding.atrasEquipo.setOnClickListener(new View.OnClickListener() {
@@ -173,16 +225,50 @@ public class FullscreenFragmentEquipo extends Fragment {
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.botonesMapa(getActivity() );
                 toggle();
+            }
+        });
+
+        binding.deleteTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteTeam();
             }
         });
 
 
     }
 
+    private void cargarImagen() {
+        final int RESULT_LOAD_IMG = 101;
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 100);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        img = data.getData();
+        Utils.botonesMapa(getActivity());
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), img);
+            binding.imagenEquipoFull.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void cerrarFragment() {
         //fragmentManager.popBackStack();
         fragmentManager.beginTransaction().remove(this).commit();
+    }
+
+    private void deleteTeam() {
+        daoEquipo.deleteTeam(equipo);
+        cerrarFragment();
     }
 
     @Override

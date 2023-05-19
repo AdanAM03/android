@@ -35,7 +35,6 @@ public class DAOusuario {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("usuarios", document.getId() + " => " + document.getData());
 
                             }
                         } else {
@@ -61,7 +60,6 @@ public class DAOusuario {
                                     u.setRol(Rol.REGISTRADO);
                                 else
                                     u.setRol(Rol.ADMIN);
-                                Log.d("::TAG", "" + u.getRol());
                             }
                         } else {
                             Log.d("usuarios", "Error getting documents: ", task.getException());

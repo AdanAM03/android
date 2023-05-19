@@ -65,7 +65,7 @@ public class EquipoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_equipo_list, container, false);
 
-        Utils.botones(getActivity());
+        Utils.botonesEquipo(getActivity());
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -90,7 +90,7 @@ public class EquipoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Utils.botones(getActivity());
+        Utils.botonesEquipo(getActivity());
     }
 
     @Override

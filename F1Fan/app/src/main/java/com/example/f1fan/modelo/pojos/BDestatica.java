@@ -38,6 +38,13 @@ public class BDestatica {
         return circuitos;
     }
 
+    public static void deleteTeam(Equipo e) {
+        equipos.remove(e);
+        for (Piloto p:pilotos) {
+            if (p.getEquipo().equalsIgnoreCase(e.getNombre()))
+                pilotos.remove(p);
+        }
+    }
     public static void modificaPiloto(Piloto pilotoNuevo) {
         for (int index = 0; index < pilotos.size() - 1; index++) {
             if (pilotos.get(index).getId() == pilotoNuevo.getId()){

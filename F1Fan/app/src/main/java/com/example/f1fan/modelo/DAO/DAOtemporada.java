@@ -31,7 +31,6 @@ public class DAOtemporada {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("temporada", document.getId() + " => " + document.getData());
                                 Temporada t = new Temporada();
                                 t.setId(document.getId());
                                 t.setAnho(document.get("anho", Integer.class));
@@ -53,7 +52,6 @@ public class DAOtemporada {
 
                     @Override
                     public void onSuccess(Object o) {
-                        Log.d("::TAG", "DocumentSnapshot successfully written!" + t);
                         BDestatica.addTemporada(t);
                     }
                 })
