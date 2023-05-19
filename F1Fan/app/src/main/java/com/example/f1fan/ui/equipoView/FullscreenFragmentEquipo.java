@@ -293,6 +293,10 @@ public class FullscreenFragmentEquipo extends Fragment {
     }
 
     private void deleteTeam() {
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
+        StorageReference storageRef = storage.getReference();
+        StorageReference riversRef = storageRef.child("equipos/" + equipo.getNombre());
+        riversRef.delete();
         daoEquipo.deleteTeam(equipo);
         cerrarFragment();
     }

@@ -103,4 +103,9 @@ public class DAOpiloto {
                     }
                 });
     }
+
+    public void add(Piloto p) {
+        fb.collection("pilotos").add(p);
+        BDestatica.addPiloto(p);
+    }
 }

@@ -75,6 +75,7 @@ public class DAOequipo {
 
     public void add(Equipo e) {
         fb.collection("equipos").add(e);
+        BDestatica.addEquipo(e);
     }
 
 }

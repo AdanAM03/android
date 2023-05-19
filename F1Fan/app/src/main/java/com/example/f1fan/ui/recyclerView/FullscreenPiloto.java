@@ -9,11 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,6 +31,14 @@ import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.pojos.Piloto;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.IOException;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -50,6 +61,7 @@ public class FullscreenPiloto extends Fragment {
     private EditText[] datos;
     private final Handler mHideHandler = new Handler(Looper.myLooper());
     private FragmentManager fragmentManager;
+    private Uri img;
 
     public FullscreenPiloto(Piloto piloto, Bitmap drawable, FragmentManager fragmentManager, DAOpiloto dao) {
         this.piloto = piloto;
@@ -179,22 +191,41 @@ public class FullscreenPiloto extends Fragment {
             binding.guardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (piloto == null)
+                    boolean modifica = piloto != null;
+                    if (!modifica)
                         piloto = new Piloto();
-                    else {
-                        piloto.setNombre(binding.nombreEdit.getText().toString());
-                        piloto.setApellidos(binding.apellidoEdit.getText().toString());
-                        piloto.setEdad(Integer.parseInt(binding.edadEdit.getText().toString()));
-                        piloto.setEquipo(binding.equipoEdit.getText().toString());
-                        piloto.setPuntos(Float.parseFloat(binding.puntosEdit.getText().toString()));
-                        piloto.setGp_terminados(Integer.parseInt(binding.gpEdit.getText().toString()));
-                        piloto.setVictorias(Integer.parseInt(binding.victoriasEdit.getText().toString()));
-                        piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
-                        piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
+
+                    piloto.setNombre(binding.nombreEdit.getText().toString());
+                    piloto.setApellidos(binding.apellidoEdit.getText().toString());
+                    piloto.setEdad(Integer.parseInt(binding.edadEdit.getText().toString()));
+                    piloto.setEquipo(binding.equipoEdit.getText().toString());
+                    piloto.setPuntos(Float.parseFloat(binding.puntosEdit.getText().toString()));
+                    piloto.setGp_terminados(Integer.parseInt(binding.gpEdit.getText().toString()));
+                    piloto.setVictorias(Integer.parseInt(binding.victoriasEdit.getText().toString()));
+                    piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
+                    piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
+
+                    if (modifica)
                         daoPiloto.modificaPiloto(piloto);
+                    else {
+
+
+                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference riversRef = storageRef.child("pilotos/" + piloto.getNombre());
+                        riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                storageRef.child("equipos/" + piloto.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        piloto.setUrl_foto(uri.toString());
+                                        daoPiloto.add(piloto);
+                                    }
+                                });
+                            }
+                        });
                     }
-
-
 
                     cerrarFragment();
                 }
@@ -216,6 +247,27 @@ public class FullscreenPiloto extends Fragment {
     private void cerrarFragment() {
         //fragmentManager.saveBackStack("piloto");
         fragmentManager.beginTransaction().remove(this).commit();
+    }
+
+    private void cargarImagen() {
+        final int RESULT_LOAD_IMG = 101;
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, 100);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        img = data.getData();
+        Utils.botonesMapa(getActivity());
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), img);
+            binding.imageView2.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
