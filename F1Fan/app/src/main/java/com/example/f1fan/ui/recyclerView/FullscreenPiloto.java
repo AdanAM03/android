@@ -24,10 +24,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.f1fan.Utils;
 import com.example.f1fan.databinding.FragmentFullscreenPilotoBinding;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
+import com.example.f1fan.modelo.pojos.BDestatica;
+import com.example.f1fan.modelo.pojos.Equipo;
 import com.example.f1fan.modelo.pojos.Piloto;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
@@ -205,29 +208,38 @@ public class FullscreenPiloto extends Fragment {
                     piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
                     piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
 
-                    if (modifica)
+                    if (modifica) {
                         daoPiloto.modificaPiloto(piloto);
-                    else {
+                        cerrarFragment();
+                    } else {
+                        boolean equipoEcontrado = false;
 
+                        for (Equipo e : BDestatica.getEquipos())
+                            if (e.getNombre() == piloto.getEquipo())
+                                equipoEcontrado = true;
 
-                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
-                        StorageReference storageRef = storage.getReference();
-                        StorageReference riversRef = storageRef.child("pilotos/" + piloto.getNombre());
-                        riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                storageRef.child("equipos/" + piloto.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        piloto.setUrl_foto(uri.toString());
-                                        daoPiloto.add(piloto);
-                                    }
-                                });
-                            }
-                        });
+                        if (equipoEcontrado) {
+
+                            FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
+                            StorageReference storageRef = storage.getReference();
+                            StorageReference riversRef = storageRef.child("pilotos/" + piloto.getNombre());
+                            riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    storageRef.child("equipos/" + piloto.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            piloto.setUrl_foto(uri.toString());
+                                            daoPiloto.add(piloto);
+                                        }
+                                    });
+                                }
+                            });
+                            cerrarFragment();
+                        } else
+                            Toast.makeText(getContext(), "Equipo no válido", Toast.LENGTH_SHORT).show();
                     }
 
-                    cerrarFragment();
                 }
             });
         }
