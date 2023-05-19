@@ -7,11 +7,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.DAO.DAOnoticia;
+import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
 import com.example.f1fan.modelo.pojos.Rol;
 import com.example.f1fan.modelo.pojos.Usuario;
 import com.example.f1fan.ui.equipoView.FullscreenFragmentEquipo;
 import com.example.f1fan.ui.noticiaView.NuevaNoticiaFragment;
+import com.example.f1fan.ui.recyclerView.FullscreenPiloto;
 import com.example.f1fan.ui.temporadaView.NuevaTemporadaFragment;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -71,6 +73,24 @@ public class Utils {
         a.findViewById(R.id.fab).setVisibility(View.VISIBLE);
         if (a.findViewById(R.id.add).isEnabled())
             a.findViewById(R.id.add).setVisibility(View.INVISIBLE);
+
+        if (Usuario.getRol() == Rol.ADMIN) {
+            a.findViewById(R.id.add).setVisibility(View.VISIBLE);
+            a.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                            R.anim.slide_in,
+                            R.anim.fade_out,
+                            R.anim.fade_in,
+                            R.anim.slide_out
+                    );
+                    ft.replace(R.id.nav_host_fragment_content_main, new FullscreenPiloto(null, null, a.getSupportFragmentManager(), new DAOpiloto()));
+                    ft.addToBackStack(null);
+                    ft.setReorderingAllowed(true).commit();
+                }
+            });
+        }
 
         a.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override

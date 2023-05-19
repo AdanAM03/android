@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.example.f1fan.Utils;
 import com.example.f1fan.databinding.FragmentFullscreenPilotoBinding;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
 import com.example.f1fan.modelo.pojos.Piloto;
@@ -137,6 +138,9 @@ public class FullscreenPiloto extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mVisible = true;
 
+        if (piloto != null)
+            binding.loadImage.setVisibility(View.INVISIBLE);
+
         mControlsView = binding.fullscreenContentControls;
         mContentView = binding.layoutPilotoFull;
 
@@ -144,19 +148,22 @@ public class FullscreenPiloto extends Fragment {
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.botonesMapa(getActivity());
                 toggle();
             }
         });
 
-        binding.nombreEdit.setText(piloto.getNombre());
-        binding.apellidoEdit.setText(piloto.getApellidos());
-        binding.edadEdit.setText(String.valueOf(piloto.getEdad()));
-        binding.equipoEdit.setText(piloto.getEquipo());
-        binding.puntosEdit.setText(String.valueOf(piloto.getPuntos()));
-        binding.gpEdit.setText(String.valueOf(piloto.getGp_terminados()));
-        binding.victoriasEdit.setText(String.valueOf(piloto.getVictorias()));
-        binding.polesEdit.setText(String.valueOf(piloto.getPole_positions()));
-        binding.podiosEdit.setText(String.valueOf(piloto.getPodios()));
+        if (piloto == null) {
+            binding.nombreEdit.setText(piloto.getNombre());
+            binding.apellidoEdit.setText(piloto.getApellidos());
+            binding.edadEdit.setText(String.valueOf(piloto.getEdad()));
+            binding.equipoEdit.setText(piloto.getEquipo());
+            binding.puntosEdit.setText(String.valueOf(piloto.getPuntos()));
+            binding.gpEdit.setText(String.valueOf(piloto.getGp_terminados()));
+            binding.victoriasEdit.setText(String.valueOf(piloto.getVictorias()));
+            binding.polesEdit.setText(String.valueOf(piloto.getPole_positions()));
+            binding.podiosEdit.setText(String.valueOf(piloto.getPodios()));
+        }
 
         if (Usuario.getRol() != Rol.ADMIN) {
             binding.nombreEdit.setFocusable(false);
@@ -172,18 +179,22 @@ public class FullscreenPiloto extends Fragment {
             binding.guardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    piloto.setNombre(binding.nombreEdit.getText().toString());
-                    piloto.setApellidos(binding.apellidoEdit.getText().toString());
-                    piloto.setEdad(Integer.parseInt(binding.edadEdit.getText().toString()));
-                    piloto.setEquipo(binding.equipoEdit.getText().toString());
-                    piloto.setPuntos(Float.parseFloat(binding.puntosEdit.getText().toString()));
-                    piloto.setGp_terminados(Integer.parseInt(binding.gpEdit.getText().toString()));
-                    piloto.setVictorias(Integer.parseInt(binding.victoriasEdit.getText().toString()));
-                    piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
-                    piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
-                    Log.d("piloto", "" + piloto.getId());
+                    if (piloto == null)
+                        piloto = new Piloto();
+                    else {
+                        piloto.setNombre(binding.nombreEdit.getText().toString());
+                        piloto.setApellidos(binding.apellidoEdit.getText().toString());
+                        piloto.setEdad(Integer.parseInt(binding.edadEdit.getText().toString()));
+                        piloto.setEquipo(binding.equipoEdit.getText().toString());
+                        piloto.setPuntos(Float.parseFloat(binding.puntosEdit.getText().toString()));
+                        piloto.setGp_terminados(Integer.parseInt(binding.gpEdit.getText().toString()));
+                        piloto.setVictorias(Integer.parseInt(binding.victoriasEdit.getText().toString()));
+                        piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
+                        piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
+                        daoPiloto.modificaPiloto(piloto);
+                    }
 
-                    daoPiloto.modificaPiloto(piloto);
+
 
                     cerrarFragment();
                 }
@@ -191,10 +202,6 @@ public class FullscreenPiloto extends Fragment {
         }
 
         binding.imageView2.setImageBitmap(imagenPiloto);
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-
 
         binding.atras.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -151,6 +151,9 @@ public class FullscreenFragmentEquipo extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mVisible = true;
 
+        if (equipo != null)
+            binding.loadImage.setVisibility(View.INVISIBLE);
+
         Utils.botonesMapa(getActivity());
 
         mControlsView = binding.fullscreenContentControls;
