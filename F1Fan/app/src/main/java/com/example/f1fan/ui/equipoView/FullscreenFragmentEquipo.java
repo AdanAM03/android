@@ -25,6 +25,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.f1fan.Utils;
 import com.example.f1fan.databinding.FragmentFullscreenEquipoBinding;
@@ -182,27 +183,31 @@ public class FullscreenFragmentEquipo extends Fragment {
                     equipo.setVictorias(Integer.parseInt(binding.victoriasEquipoEdit.getText().toString()));
                     equipo.setAnhos_activo(Integer.parseInt(binding.anhosEquipoEdit.getText().toString()));
 
-                    if (modifica)
-                        daoEquipo.modificaEquipo(equipo);
-                    else {
-                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
-                        StorageReference storageRef = storage.getReference();
-                        StorageReference riversRef = storageRef.child("equipos/" + equipo.getNombre());
-                        riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                storageRef.child("equipos/" + equipo.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        equipo.setUrl_foto(uri.toString());
-                                        daoEquipo.add(equipo);
-                                    }
-                                });
-                            }
-                        });
-                    }
+                    if (formCheck()) {
+                        if (modifica)
+                            daoEquipo.modificaEquipo(equipo);
+                        else {
+                            FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
+                            StorageReference storageRef = storage.getReference();
+                            StorageReference riversRef = storageRef.child("equipos/" + equipo.getNombre());
+                            riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                    storageRef.child("equipos/" + equipo.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            equipo.setUrl_foto(uri.toString());
+                                            daoEquipo.add(equipo);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        cerrarFragment();
+                    } else
+                        Toast.makeText(getContext(), "Rellena todos los datos", Toast.LENGTH_SHORT).show();
 
-                    cerrarFragment();
+
                 }
             });
         binding.loadImage.setOnClickListener(new View.OnClickListener() {
@@ -238,6 +243,24 @@ public class FullscreenFragmentEquipo extends Fragment {
         });
 
 
+    }
+
+    private boolean formCheck() {
+        boolean result = true;
+
+        if (equipo.getNombre() == null)
+            result = false;
+
+        if (equipo.getAnhos_activo() + "" == null)
+            result = false;
+
+        if (equipo.getTeam_principal() == null)
+            result = false;
+
+        if (equipo.getVictorias() + "" == null)
+            result = false;
+
+        return result;
     }
 
     private void cargarImagen() {
