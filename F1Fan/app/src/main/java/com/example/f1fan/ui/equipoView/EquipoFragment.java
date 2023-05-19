@@ -33,6 +33,7 @@ public class EquipoFragment extends Fragment {
     private int mColumnCount = 1;
 
     private Context context;
+    private MyEquipoRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -76,7 +77,8 @@ public class EquipoFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyEquipoRecyclerViewAdapter(BDestatica.getEquipos(), context, getActivity().getSupportFragmentManager(), new DAOequipo()));
+            adapter = new MyEquipoRecyclerViewAdapter(BDestatica.getEquipos(), context, getActivity().getSupportFragmentManager(), new DAOequipo());
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }
@@ -90,8 +92,11 @@ public class EquipoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        adapter.notifyDataSetChanged();
         Utils.botonesEquipo(getActivity());
     }
+
+
 
     @Override
     public void onDetach() {

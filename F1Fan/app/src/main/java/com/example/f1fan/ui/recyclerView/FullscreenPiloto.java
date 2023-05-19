@@ -153,9 +153,6 @@ public class FullscreenPiloto extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mVisible = true;
 
-        if (piloto != null)
-            binding.loadImage.setVisibility(View.INVISIBLE);
-
         mControlsView = binding.fullscreenContentControls;
         mContentView = binding.layoutPilotoFull;
 
@@ -178,6 +175,21 @@ public class FullscreenPiloto extends Fragment {
             binding.victoriasEdit.setText(String.valueOf(piloto.getVictorias()));
             binding.polesEdit.setText(String.valueOf(piloto.getPole_positions()));
             binding.podiosEdit.setText(String.valueOf(piloto.getPodios()));
+            binding.loadImage.setText("Eliminar");
+            binding.loadImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    daoPiloto.eliminaPiloto(piloto);
+                    cerrarFragment();
+                }
+            });
+        } else {
+            binding.loadImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cargarImagen();
+                }
+            });
         }
 
         if (Usuario.getRol() != Rol.ADMIN) {
@@ -190,6 +202,7 @@ public class FullscreenPiloto extends Fragment {
             binding.victoriasEdit.setFocusable(false);
             binding.polesEdit.setFocusable(false);
             binding.podiosEdit.setFocusable(false);
+            binding.loadImage.setVisibility(View.INVISIBLE);
         } else {
             binding.guardar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -215,7 +228,7 @@ public class FullscreenPiloto extends Fragment {
                         boolean equipoEcontrado = false;
 
                         for (Equipo e : BDestatica.getEquipos())
-                            if (e.getNombre() == piloto.getEquipo())
+                            if (e.getNombre().equals(piloto.getEquipo()))
                                 equipoEcontrado = true;
 
                         if (equipoEcontrado) {
@@ -223,19 +236,20 @@ public class FullscreenPiloto extends Fragment {
                             FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
                             StorageReference storageRef = storage.getReference();
                             StorageReference riversRef = storageRef.child("pilotos/" + piloto.getNombre());
+                            Log.d("::TAG", "" + img.toString());
                             riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    storageRef.child("equipos/" + piloto.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    storageRef.child("pilotos/" + piloto.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
                                         public void onSuccess(Uri uri) {
                                             piloto.setUrl_foto(uri.toString());
                                             daoPiloto.add(piloto);
+                                            cerrarFragment();
                                         }
                                     });
                                 }
                             });
-                            cerrarFragment();
                         } else
                             Toast.makeText(getContext(), "Equipo no válido", Toast.LENGTH_SHORT).show();
                     }
@@ -273,12 +287,14 @@ public class FullscreenPiloto extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         img = data.getData();
-        Utils.botonesMapa(getActivity());
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), img);
-            binding.imageView2.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (img != null) {
+            Utils.botonesMapa(getActivity());
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), img);
+                binding.imageView2.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -293,6 +309,8 @@ public class FullscreenPiloto extends Fragment {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
+
+        Utils.botonesMapa(getActivity());
     }
 
     @Override

@@ -104,4 +104,8 @@ public class BDestatica {
 
         return datos;
     }
+
+    public static void deletePilot(Piloto p) {
+        pilotos.remove(p);
+    }
 }

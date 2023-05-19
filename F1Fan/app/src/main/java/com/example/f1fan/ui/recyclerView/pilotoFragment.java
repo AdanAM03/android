@@ -31,6 +31,7 @@ public class pilotoFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private Context context;
+        private MypilotoRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,7 +76,8 @@ public class pilotoFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             DAOpiloto daoPiloto = new DAOpiloto();
-            recyclerView.setAdapter(new MypilotoRecyclerViewAdapter(BDestatica.getPilotos(), context, getActivity().getSupportFragmentManager(), daoPiloto));
+            adapter = new MypilotoRecyclerViewAdapter(BDestatica.getPilotos(), context, getActivity().getSupportFragmentManager(), daoPiloto);
+            recyclerView.setAdapter(adapter);
         }
 
         return view;
@@ -90,7 +92,7 @@ public class pilotoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        adapter.notifyDataSetChanged();
         Utils.botonesPiloto(getActivity());
     }
 

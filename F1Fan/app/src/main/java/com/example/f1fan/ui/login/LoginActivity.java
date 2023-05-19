@@ -116,8 +116,10 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 onActivityResult(0, 0, null);
                                 startActivity(i);
-                            } else
+                            } else {
                                 Toast.makeText(LoginActivity.this, "Verifique su e-mail", Toast.LENGTH_SHORT).show();
+                                user.sendEmailVerification();
+                            }
 
                         } else {
                             if (task.getException().getMessage() == "The password is invalid or the user does not have a password.")

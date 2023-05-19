@@ -108,4 +108,10 @@ public class DAOpiloto {
         fb.collection("pilotos").add(p);
         BDestatica.addPiloto(p);
     }
+
+    public void eliminaPiloto(Piloto p) {
+        Log.d("::TAG", "id delete pilot: " + p.getId());
+        fb.collection("pilotos").document(p.getId()).delete();
+        BDestatica.deletePilot(p);
+    }
 }

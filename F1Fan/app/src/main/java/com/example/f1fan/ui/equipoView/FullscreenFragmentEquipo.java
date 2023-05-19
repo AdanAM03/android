@@ -8,44 +8,33 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import com.example.f1fan.Utils;
 import com.example.f1fan.databinding.FragmentFullscreenEquipoBinding;
 import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.DAO.DAOequipo;
 import com.example.f1fan.modelo.pojos.BDestatica;
 import com.example.f1fan.modelo.pojos.Equipo;
-import com.example.f1fan.modelo.pojos.Rol;
-import com.example.f1fan.modelo.pojos.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -53,7 +42,7 @@ import java.io.InputStream;
  */
 public class FullscreenFragmentEquipo extends Fragment {
     private static final boolean AUTO_HIDE = true;
-        private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler(Looper.myLooper());
     private final Bitmap imagenEquipo;
@@ -264,6 +253,9 @@ public class FullscreenFragmentEquipo extends Fragment {
         if (equipo.getVictorias() + "" == null)
             result = false;
 
+        if (binding.imagenEquipoFull == null)
+            result = false;
+
         return result;
     }
 
@@ -279,12 +271,14 @@ public class FullscreenFragmentEquipo extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         img = data.getData();
-        Utils.botonesMapa(getActivity());
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), img);
-            binding.imagenEquipoFull.setImageBitmap(bitmap);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (img != null) {
+            Utils.botonesMapa(getActivity());
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), img);
+                binding.imagenEquipoFull.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -313,11 +307,6 @@ public class FullscreenFragmentEquipo extends Fragment {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
-
-        if (BDestatica.getEquipos().size() >= 10) {
-            Toast.makeText(getContext(), "No se pueden añadir más equipos (max 10)", Toast.LENGTH_SHORT).show();
-            cerrarFragment();
-        }
     }
 
     @Override

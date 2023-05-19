@@ -1,5 +1,6 @@
 package com.example.f1fan;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -46,9 +47,9 @@ public class Utils {
             a.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (BDestatica.getEquipos().size() >= 10) {
+                    if (BDestatica.getEquipos().size() >= 2000)
                         Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 10 equipos)", Toast.LENGTH_SHORT).show();
-                    } else {
+                    else {
                         FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
                                 R.anim.slide_in,
                                 R.anim.fade_out,
@@ -85,7 +86,7 @@ public class Utils {
             a.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (BDestatica.getEquipos().size() >= 10) {
+                    if (BDestatica.getPilotos().size() >= 30) {
                         Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 2 por equipo)", Toast.LENGTH_SHORT).show();
                     } else {
                         FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
