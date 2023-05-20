@@ -3,6 +3,7 @@ package com.example.f1fan.modelo.pojos;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class BDestatica {
@@ -39,10 +40,11 @@ public class BDestatica {
     }
 
     public static void deleteTeam(Equipo e) {
+        List<Piloto> pilotosCopia = (List<Piloto>) pilotos.clone();
         equipos.remove(e);
-        for (Piloto p:pilotos) {
-            if (p.getEquipo().equalsIgnoreCase(e.getNombre()))
-                pilotos.remove(p);
+        for (int i = 0; i < pilotosCopia.size(); i++) {
+            if (pilotos.get(i).getEquipo().equalsIgnoreCase(e.getNombre()))
+                pilotos.remove(pilotos.get(i));
         }
     }
     public static void modificaPiloto(Piloto pilotoNuevo) {

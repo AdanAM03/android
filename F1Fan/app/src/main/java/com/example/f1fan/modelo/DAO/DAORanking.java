@@ -56,13 +56,6 @@ public class DAORanking {
                         Log.d("temporada", "DocumentSnapshot successfully written!");
                         BDestatica.modificaRanking(p);
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("piloto", "Error writing document", e);
-                    }
                 });
     }
 }

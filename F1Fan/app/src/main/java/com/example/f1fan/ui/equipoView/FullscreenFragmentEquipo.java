@@ -140,8 +140,8 @@ public class FullscreenFragmentEquipo extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mVisible = true;
 
-        if (equipo != null)
-            binding.loadImage.setVisibility(View.INVISIBLE);
+        if (equipo == null)
+            binding.deleteTeam.setVisibility(View.INVISIBLE);
 
 
         Utils.botonesMapa(getActivity());
@@ -150,19 +150,14 @@ public class FullscreenFragmentEquipo extends Fragment {
         mContentView = binding.layoutEquipoFull;
 
         if (equipo != null) {
-
             binding.anhosEquipoEdit.setText(String.valueOf(equipo.getAnhos_activo()));
             binding.victoriasEquipoEdit.setText(String.valueOf(equipo.getVictorias()));
             binding.teamPrincipalEdit.setText(equipo.getTeam_principal());
             binding.nombreEquipoEdit.setText(equipo.getNombre());
             binding.imagenEquipoFull.setImageBitmap(imagenEquipo);
-
-            binding.anhosEquipoEdit.setFocusable(false);
-            binding.victoriasEquipoEdit.setFocusable(false);
-            binding.teamPrincipalEdit.setFocusable(false);
-            binding.nombreEquipoEdit.setFocusable(false);
-            binding.guardarEquipo.setClickable(false);
         }
+
+
             binding.guardarEquipo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -177,26 +172,15 @@ public class FullscreenFragmentEquipo extends Fragment {
                     equipo.setAnhos_activo(Integer.parseInt(binding.anhosEquipoEdit.getText().toString()));
 
                     if (formCheck()) {
-                        if (modifica)
-                            daoEquipo.modificaEquipo(equipo);
-                        else {
-                            FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
-                            StorageReference storageRef = storage.getReference();
-                            StorageReference riversRef = storageRef.child("equipos/" + equipo.getNombre());
-                            riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    storageRef.child("equipos/" + equipo.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            equipo.setUrl_foto(uri.toString());
-                                            daoEquipo.add(equipo);
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                        cerrarFragment();
+
+                        if (modifica) {
+                            daoEquipo.modificaEquipo(equipo, img);
+                            cerrarFragment();
+                        } else if (img != null) {
+                            daoEquipo.add(equipo, img);
+                            cerrarFragment();
+                        } else
+                            Toast.makeText(getContext(), "Inserta una imagen", Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(getContext(), "Rellena todos los datos", Toast.LENGTH_SHORT).show();
 
@@ -251,9 +235,6 @@ public class FullscreenFragmentEquipo extends Fragment {
             result = false;
 
         if (equipo.getVictorias() + "" == null)
-            result = false;
-
-        if (binding.imagenEquipoFull == null)
             result = false;
 
         return result;

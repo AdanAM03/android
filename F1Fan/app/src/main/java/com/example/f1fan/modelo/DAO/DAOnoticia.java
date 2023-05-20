@@ -56,19 +56,7 @@ public class DAOnoticia {
 
     public void addNoticia(Noticia n) {
         BDestatica.addNoticia(n);
-        fb.collection("noticias").add(n).addOnSuccessListener(new OnSuccessListener() {
-
-                    @Override
-                    public void onSuccess(Object o) {
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("piloto", "Error writing document", e);
-                    }
-                });
+        fb.collection("noticias").add(n);
 
     }
 }

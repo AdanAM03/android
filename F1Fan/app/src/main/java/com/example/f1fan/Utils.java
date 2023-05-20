@@ -47,8 +47,8 @@ public class Utils {
             a.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (BDestatica.getEquipos().size() >= 2000)
-                        Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 10 equipos)", Toast.LENGTH_SHORT).show();
+                    if (BDestatica.getEquipos().size() >= 11)
+                        Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 11 equipos)", Toast.LENGTH_SHORT).show();
                     else {
                         FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(
                                 R.anim.slide_in,
@@ -86,7 +86,7 @@ public class Utils {
             a.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (BDestatica.getPilotos().size() >= 30) {
+                    if (BDestatica.getPilotos().size() >= 22) {
                         Toast.makeText(a.getApplicationContext(), "No se pueden añadir más pilotos (max 2 por equipo)", Toast.LENGTH_SHORT).show();
                     } else {
                         FragmentTransaction ft = a.getSupportFragmentManager().beginTransaction().setCustomAnimations(

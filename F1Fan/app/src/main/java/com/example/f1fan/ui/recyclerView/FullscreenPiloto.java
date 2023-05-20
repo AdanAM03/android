@@ -208,6 +208,8 @@ public class FullscreenPiloto extends Fragment {
                 @Override
                 public void onClick(View v) {
                     boolean modifica = piloto != null;
+                    boolean equipoEcontrado = false;
+
                     if (!modifica)
                         piloto = new Piloto();
 
@@ -221,39 +223,51 @@ public class FullscreenPiloto extends Fragment {
                     piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
                     piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
 
-                    if (modifica) {
-                        daoPiloto.modificaPiloto(piloto);
-                        cerrarFragment();
-                    } else {
-                        boolean equipoEcontrado = false;
+                    if (formCheck()) {
+                        if (modifica) {
+                            Toast.makeText(getContext(), "Modifica", Toast.LENGTH_SHORT).show();
+                            int count = 0;
 
-                        for (Equipo e : BDestatica.getEquipos())
-                            if (e.getNombre().equals(piloto.getEquipo()))
-                                equipoEcontrado = true;
-
-                        if (equipoEcontrado) {
-
-                            FirebaseStorage storage = FirebaseStorage.getInstance("gs://f1fan-b7d7b.appspot.com");
-                            StorageReference storageRef = storage.getReference();
-                            StorageReference riversRef = storageRef.child("pilotos/" + piloto.getNombre());
-                            Log.d("::TAG", "" + img.toString());
-                            riversRef.putFile(img).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                    storageRef.child("pilotos/" + piloto.getNombre()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            piloto.setUrl_foto(uri.toString());
-                                            daoPiloto.add(piloto);
-                                            cerrarFragment();
-                                        }
-                                    });
+                            for (Equipo e : BDestatica.getEquipos())
+                                if (e.getNombre().equals(piloto.getEquipo())) {
+                                    equipoEcontrado = true;
+                                    for (Piloto p : BDestatica.getPilotos())
+                                        if (p.getEquipo().equals(e.getNombre()) && !p.getId().equals(piloto.getId()))
+                                            count++;
                                 }
-                            });
-                        } else
-                            Toast.makeText(getContext(), "Equipo no válido", Toast.LENGTH_SHORT).show();
-                    }
 
+                            if (equipoEcontrado && count < 2) {
+                                daoPiloto.modificaPiloto(piloto, img);
+                                cerrarFragment();
+                            } else if (!equipoEcontrado)
+                                Toast.makeText(getContext(), "El equipo no existe", Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(getContext(), "El equipo ya contiene 2 pilotos", Toast.LENGTH_SHORT).show();
+
+                        } else if (img != null) {
+                            equipoEcontrado = false;
+
+                            int count = 0;
+
+                            for (Equipo e : BDestatica.getEquipos())
+                                if (e.getNombre().equals(piloto.getEquipo())) {
+                                    equipoEcontrado = true;
+                                    for (Piloto p : BDestatica.getPilotos())
+                                        if (p.getEquipo().equals(e.getNombre()))
+                                            count++;
+                                }
+
+                            if (equipoEcontrado && count < 2) {
+                                daoPiloto.add(piloto, img);
+                                cerrarFragment();
+                            } else if (equipoEcontrado)
+                                Toast.makeText(getContext(), "Ya hay dos pilotos para el equipo " + piloto.getEquipo(), Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(getContext(), "Equipo no válido", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(getContext(), "Inserta una imagen", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(getContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -270,8 +284,40 @@ public class FullscreenPiloto extends Fragment {
 
     }
 
+    private boolean formCheck() {
+        boolean result = true;
+
+        if (piloto.getNombre() == null)
+            result = false;
+
+        if (piloto.getEquipo() == null)
+            result = false;
+
+        if (piloto.getApellidos() == null)
+            result = false;
+
+        if (piloto.getEdad() + "" == null)
+            result = false;
+
+        if (piloto.getGp_terminados() + "" == null)
+            result = false;
+
+        if (piloto.getPodios() + "" == null)
+            result = false;
+
+        if (piloto.getVictorias() + "" == null)
+            result = false;
+
+        if (piloto.getPuntos() + "" == null)
+            result = false;
+
+        if (piloto.getPole_positions() + "" == null)
+            result = false;
+
+        return result;
+    }
+
     private void cerrarFragment() {
-        //fragmentManager.saveBackStack("piloto");
         fragmentManager.beginTransaction().remove(this).commit();
     }
 

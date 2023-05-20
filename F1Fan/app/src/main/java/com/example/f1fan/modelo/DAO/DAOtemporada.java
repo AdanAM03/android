@@ -54,13 +54,6 @@ public class DAOtemporada {
                     public void onSuccess(Object o) {
                         BDestatica.addTemporada(t);
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("piloto", "Error writing document", e);
-                    }
                 });
     }
 }
