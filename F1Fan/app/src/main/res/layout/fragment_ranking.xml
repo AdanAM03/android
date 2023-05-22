@@ -8,7 +8,7 @@
     android:layout_margin="5dp"
     android:orientation="vertical"
     card_view:cardCornerRadius="10dp"
-    card_view:cardBackgroundColor="@color/a2">
+    card_view:cardBackgroundColor="#909BAE">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rankingContentC"

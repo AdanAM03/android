@@ -22,6 +22,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -125,26 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.getException().getMessage() == "The password is invalid or the user does not have a password.")
                                 Toast.makeText(LoginActivity.this, "Contraseña o email incorrecto", Toast.LENGTH_SHORT).show();
                             else {
-                                final FirebaseUser[] user = new FirebaseUser[1];
-                                mAuth.createUserWithEmailAndPassword(email, passwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        user[0] = mAuth.getCurrentUser();
-                                        user[0].sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(LoginActivity.this, "E-mail de verificación enviado", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    Log.d("::TAG", task.getException().getMessage());
-                                                    Toast.makeText(getApplicationContext(),
-                                                            "Failed to send verification email.",
-                                                            Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
+                                confirmarPasswd();
+
                             }
                         }
                         borrarCampos();
@@ -175,5 +158,73 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void confirmarPasswd() {
+        // Inflar el diseño del diálogo
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_verification, null);
+
+        // Construir el diálogo
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        builder.setTitle("Verificación de Contraseña");
+
+        // Obtener referencias a los elementos del diseño del diálogo
+        EditText passwordEditText = dialogView.findViewById(R.id.passwordEditText);
+
+        AlertDialog dialog = builder.create();
+
+        // Configurar el botón de verificación
+        builder.setPositiveButton("Verificar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String password = passwordEditText.getText().toString();
+
+                // Realizar la verificación de la contraseña
+                if (verifyPassword(password)) {
+                    // Contraseña válida, realizar alguna acción
+                    Toast.makeText(LoginActivity.this, "Contraseña válida", Toast.LENGTH_SHORT).show();
+                    registrarUsuario();
+                } else {
+                    // Contraseña inválida, mostrar un mensaje de error
+                    Toast.makeText(LoginActivity.this, "Contraseña inválida", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Mostrar el diálogo
+        dialog = builder.create();
+        dialog.show();
+    }
+
+    private void registrarUsuario() {
+        mAuth.createUserWithEmailAndPassword(email, passwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                Usuario.setUsuario(mAuth.getCurrentUser());
+                Usuario.getUsuario().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "E-mail de verificación enviado", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.d("::TAG", task.getException().getMessage());
+                            Toast.makeText(getApplicationContext(),
+                                    "Failed to send verification email.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private boolean verifyPassword(String password) {
+        // Realiza la lógica de verificación de la contraseña
+        // Devuelve true si la contraseña es válida, false en caso contrario
+        // Aquí puedes implementar tu propia lógica de verificación de contraseña
+        return password.equals(passwd);
+    }
+
 
 }
