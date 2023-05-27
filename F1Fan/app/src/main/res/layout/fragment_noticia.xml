@@ -26,25 +26,25 @@
             android:id="@+id/cuerpo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="16dp"
             android:fontFamily="@font/formula1_nomral"
             android:text="TextView"
             android:textColor="@color/black"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent" />
+            card_view:layout_constraintTop_toBottomOf="@+id/titular" />
 
         <TextView
             android:id="@+id/titular"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="5dp"
-            android:textColor="@color/black"
             android:fontFamily="@font/f1_wide"
             android:text="TextView"
+            android:textColor="@color/black"
+            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
 
