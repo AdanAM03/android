@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentNuevaTemporadaBinding;
 import com.example.f1fan.modelo.DAO.DAOtemporada;
 import com.example.f1fan.modelo.pojos.Temporada;
@@ -138,6 +140,8 @@ public class NuevaTemporadaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mVisible = true;
+        binding.textView18.setTextSize(25f);
+        binding.textView18.setTextColor(Color.BLACK);
 
         mControlsView = binding.fullscreenContentControls;
         mContentView = binding.frameLayout3;

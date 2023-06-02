@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentNuevaNoticiaBinding;
@@ -67,6 +70,10 @@ public class NuevaNoticiaFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nueva_noticia, container, false);
+
+        TextView tv = view.findViewById(R.id.textView18);
+        tv.setTextSize(25f);
+        tv.setTextColor(Color.BLACK);
         view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +84,7 @@ public class NuevaNoticiaFragment extends Fragment {
                 n.setLink_noticia(((EditText)view.findViewById(R.id.enlace)).getText().toString());
                 n.setCuerpo(((EditText)view.findViewById(R.id.cuerpo)).getText().toString());
 
-                if (n.getTitular() == "" || n.getCuerpo() == "" || n.getLink_noticia() == "")
+                if (n.getTitular().equals("") || n.getCuerpo().equals("") || n.getLink_noticia().equals(""))
                     Toast.makeText(getContext(), "Rellena todos los campos", Toast.LENGTH_SHORT).show();
                 else {
                     try {
