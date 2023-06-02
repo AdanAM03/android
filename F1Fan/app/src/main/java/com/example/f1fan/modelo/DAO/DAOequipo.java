@@ -54,6 +54,7 @@ public class DAOequipo {
                                 e.setUrl_foto(document.get("url_foto", String.class));
                                 e.setAnhos_activo(document.get("anhos_activo", Integer.class));
                                 e.setTeam_principal(document.get("team_principal", String.class));
+                                e.setColor(document.get("color", String.class));
 
                                 BDestatica.addEquipo(e);
                             }

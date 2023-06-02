@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +61,10 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         holder.anhosActivo.setText("Años activo: " + String.valueOf(mValues.get(position).getAnhos_activo()));
         holder.victorias.setText("Victorias: " + String.valueOf(mValues.get(position).getVictorias()));
         holder.teamPrincipal.setText("Team Principal: " + mValues.get(position).getTeam_principal());
+        if (!mValues.get(position).getColor().equals("")) {
+            int color = Color.parseColor(mValues.get(position).getColor());
+            holder.vista.setBackgroundColor(color);
+        }
 
         final Bitmap[] finalD = new Bitmap[1];
 
@@ -127,7 +132,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
             victorias = binding.victoriasEquipo;
             teamPrincipal = binding.teamPrincipal;
             imagen = binding.fotoEquipo;
-            vista = binding.equipoContent;
+            vista = binding.equipoContentC;
         }
 
         @Override

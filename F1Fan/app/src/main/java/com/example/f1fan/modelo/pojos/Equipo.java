@@ -8,6 +8,8 @@ public class Equipo {
     private int anhos_activo;
     private String url_foto;
 
+    private String color;
+
     public Equipo(String id, String nombre, String team_principal, int victorias, int anhos_activo, String url_foto) {
         this.id = id;
         this.nombre = nombre;
@@ -65,5 +67,13 @@ public class Equipo {
 
     public void setUrl_foto(String url_foto) {
         this.url_foto = url_foto;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

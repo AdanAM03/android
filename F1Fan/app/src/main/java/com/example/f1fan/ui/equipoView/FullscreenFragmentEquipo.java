@@ -173,6 +173,7 @@ public class FullscreenFragmentEquipo extends Fragment {
                         equipo.setVictorias(Integer.parseInt(binding.victoriasEquipoEdit.getText().toString()));
                         equipo.setAnhos_activo(Integer.parseInt(binding.anhosEquipoEdit.getText().toString()));
 
+
                         if (modifica) {
                             daoEquipo.modificaEquipo(equipo, img);
                             Toast.makeText(getContext(), "Modificando equipo...", Toast.LENGTH_SHORT).show();
@@ -226,6 +227,7 @@ public class FullscreenFragmentEquipo extends Fragment {
 
     private boolean formCheck() {
         boolean result = true;
+        String patronHexadecimal = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$";
 
         if (binding.nombreEquipoEdit.getText().toString().equals(""))
             result = false;
@@ -238,6 +240,16 @@ public class FullscreenFragmentEquipo extends Fragment {
 
         if (binding.victoriasEquipoEdit.getText().toString().equals(""))
             result = false;
+
+        String color = binding.colorEdit.getText().toString();
+        if (!color.equals("")) {
+            if (color.matches(patronHexadecimal))
+                equipo.setColor(color);
+            else {
+                result = false;
+                Toast.makeText(getContext(), "El formato del color no es correcto", Toast.LENGTH_SHORT).show();
+            }
+        }
 
         return result;
     }

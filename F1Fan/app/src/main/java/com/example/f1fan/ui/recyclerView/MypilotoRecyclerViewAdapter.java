@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,7 +25,10 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.f1fan.R;
 import com.example.f1fan.databinding.FragmentPilotoBinding;
+import com.example.f1fan.modelo.BD;
 import com.example.f1fan.modelo.DAO.DAOpiloto;
+import com.example.f1fan.modelo.pojos.BDestatica;
+import com.example.f1fan.modelo.pojos.Equipo;
 import com.example.f1fan.modelo.pojos.Piloto;
 
 import java.util.List;
@@ -55,6 +60,13 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
         holder.nombre.setText(mValues.get(position).getNombre() + " " + mValues.get(position).getApellidos());
         holder.victorias.setText("Victorias: " + mValues.get(position).getVictorias());
         holder.edad.setText("Edad: " + String.valueOf(mValues.get(position).getEdad()));
+
+        for (Equipo e: BDestatica.getEquipos())
+            if (e.getNombre().equals(mValues.get(position).getEquipo()) && !e.getColor().equals("")) {
+                int color = Color.parseColor(e.getColor());
+                holder.vista.setBackgroundColor(color);
+            }
+
 
         final Bitmap[] finalD = new Bitmap[1];
 
@@ -116,7 +128,7 @@ public class MypilotoRecyclerViewAdapter extends RecyclerView.Adapter<MypilotoRe
             victorias = binding.apellidos;
             edad = binding.edad;
             foto = binding.foto;
-            vista = binding.pilotoContent;
+            vista = binding.pilotoContentC;
 
         }
 

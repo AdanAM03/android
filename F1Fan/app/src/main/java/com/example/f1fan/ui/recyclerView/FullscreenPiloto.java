@@ -65,6 +65,7 @@ public class FullscreenPiloto extends Fragment {
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private Piloto piloto;
+    private String equipo;
     private DAOpiloto daoPiloto;
     private Bitmap imagenPiloto;
     private EditText[] datos;
@@ -162,7 +163,6 @@ public class FullscreenPiloto extends Fragment {
         if (!modifica)
             piloto = new Piloto();
 
-        Toast.makeText(getContext(), "" + modifica, Toast.LENGTH_SHORT).show();
         Spinner spinner = binding.spinner;
         ArrayList<String> opciones = new ArrayList<>();
 
@@ -177,7 +177,7 @@ public class FullscreenPiloto extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String seleccion = parent.getItemAtPosition(position).toString();
-                piloto.setEquipo(seleccion);
+                equipo = seleccion;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -252,6 +252,7 @@ public class FullscreenPiloto extends Fragment {
                         piloto.setVictorias(Integer.parseInt(binding.victoriasEdit.getText().toString()));
                         piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
                         piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
+                        piloto.setEquipo(equipo);
 
 
                         if (modifica) {
