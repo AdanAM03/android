@@ -225,7 +225,7 @@ public class FullscreenPiloto extends Fragment {
 
                     if (formCheck()) {
                         if (modifica) {
-                            Toast.makeText(getContext(), "Modifica", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Piloto Modificado", Toast.LENGTH_SHORT).show();
                             int count = 0;
 
                             for (Equipo e : BDestatica.getEquipos())

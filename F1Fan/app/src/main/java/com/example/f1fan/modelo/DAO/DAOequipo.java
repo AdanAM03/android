@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -101,8 +102,13 @@ public class DAOequipo {
                     @Override
                     public void onSuccess(Uri uri) {
                         e.setUrl_foto(uri.toString());
-                        fb.collection("equipos").add(e);
-                        BDestatica.addEquipo(e);
+                        fb.collection("equipos").add(e).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                e.setId(task.getResult().getId());
+                                BDestatica.addEquipo(e);
+                            }
+                        });
                     }
                 });
             }
