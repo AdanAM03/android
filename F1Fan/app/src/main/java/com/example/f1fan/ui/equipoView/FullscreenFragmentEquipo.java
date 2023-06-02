@@ -167,18 +167,19 @@ public class FullscreenFragmentEquipo extends Fragment {
                     if (!modifica)
                         equipo = new Equipo();
 
-                    equipo.setNombre(binding.nombreEquipoEdit.getText().toString());
-                    equipo.setTeam_principal(binding.teamPrincipalEdit.getText().toString());
-                    equipo.setVictorias(Integer.parseInt(binding.victoriasEquipoEdit.getText().toString()));
-                    equipo.setAnhos_activo(Integer.parseInt(binding.anhosEquipoEdit.getText().toString()));
-
                     if (formCheck()) {
+                        equipo.setNombre(binding.nombreEquipoEdit.getText().toString());
+                        equipo.setTeam_principal(binding.teamPrincipalEdit.getText().toString());
+                        equipo.setVictorias(Integer.parseInt(binding.victoriasEquipoEdit.getText().toString()));
+                        equipo.setAnhos_activo(Integer.parseInt(binding.anhosEquipoEdit.getText().toString()));
 
                         if (modifica) {
                             daoEquipo.modificaEquipo(equipo, img);
+                            Toast.makeText(getContext(), "Modificando equipo...", Toast.LENGTH_SHORT).show();
                             cerrarFragment();
                         } else if (img != null) {
                             daoEquipo.add(equipo, img);
+                            Toast.makeText(getContext(), "Añadiendo equipo...", Toast.LENGTH_SHORT).show();
                             cerrarFragment();
                         } else
                             Toast.makeText(getContext(), "Inserta una imagen", Toast.LENGTH_SHORT).show();
@@ -226,16 +227,16 @@ public class FullscreenFragmentEquipo extends Fragment {
     private boolean formCheck() {
         boolean result = true;
 
-        if (equipo.getNombre() == null)
+        if (binding.nombreEquipoEdit.getText().toString().equals(""))
             result = false;
 
-        if (equipo.getAnhos_activo() + "" == null)
+        if (binding.anhosEquipoEdit.getText().toString().equals(""))
             result = false;
 
-        if (equipo.getTeam_principal() == null)
+        if (binding.teamPrincipalEdit.getText().toString().equals(""))
             result = false;
 
-        if (equipo.getVictorias() + "" == null)
+        if (binding.victoriasEquipoEdit.getText().toString().equals(""))
             result = false;
 
         return result;

@@ -23,7 +23,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.f1fan.Utils;
@@ -42,6 +45,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import kotlin.collections.ArrayDeque;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -151,6 +157,33 @@ public class FullscreenPiloto extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        boolean modifica = piloto != null;
+
+        if (!modifica)
+            piloto = new Piloto();
+
+        Toast.makeText(getContext(), "" + modifica, Toast.LENGTH_SHORT).show();
+        Spinner spinner = binding.spinner;
+        ArrayList<String> opciones = new ArrayList<>();
+
+        for (Equipo e: BDestatica.getEquipos())
+                opciones.add(e.getNombre());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String seleccion = parent.getItemAtPosition(position).toString();
+                piloto.setEquipo(seleccion);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         mVisible = true;
 
         mControlsView = binding.fullscreenContentControls;
@@ -165,11 +198,14 @@ public class FullscreenPiloto extends Fragment {
             }
         });
 
-        if (piloto != null) {
+        if (modifica) {
+            for (int i = 0; i < BDestatica.getEquipos().size(); i++)
+                if (BDestatica.getEquipos().get(i).getNombre().equals(piloto.getEquipo()))
+                    spinner.setSelection(i);
+
             binding.nombreEdit.setText(piloto.getNombre());
             binding.apellidoEdit.setText(piloto.getApellidos());
             binding.edadEdit.setText(String.valueOf(piloto.getEdad()));
-            binding.equipoEdit.setText(piloto.getEquipo());
             binding.puntosEdit.setText(String.valueOf(piloto.getPuntos()));
             binding.gpEdit.setText(String.valueOf(piloto.getGp_terminados()));
             binding.victoriasEdit.setText(String.valueOf(piloto.getVictorias()));
@@ -196,7 +232,7 @@ public class FullscreenPiloto extends Fragment {
             binding.nombreEdit.setFocusable(false);
             binding.apellidoEdit.setFocusable(false);
             binding.edadEdit.setFocusable(false);
-            binding.equipoEdit.setFocusable(false);
+            binding.spinner.setFocusable(false);
             binding.puntosEdit.setFocusable(false);
             binding.gpEdit.setFocusable(false);
             binding.victoriasEdit.setFocusable(false);
@@ -207,62 +243,50 @@ public class FullscreenPiloto extends Fragment {
             binding.guardar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean modifica = piloto != null;
-                    boolean equipoEcontrado = false;
-
-                    if (!modifica)
-                        piloto = new Piloto();
-
-                    piloto.setNombre(binding.nombreEdit.getText().toString());
-                    piloto.setApellidos(binding.apellidoEdit.getText().toString());
-                    piloto.setEdad(Integer.parseInt(binding.edadEdit.getText().toString()));
-                    piloto.setEquipo(binding.equipoEdit.getText().toString());
-                    piloto.setPuntos(Float.parseFloat(binding.puntosEdit.getText().toString()));
-                    piloto.setGp_terminados(Integer.parseInt(binding.gpEdit.getText().toString()));
-                    piloto.setVictorias(Integer.parseInt(binding.victoriasEdit.getText().toString()));
-                    piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
-                    piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
-
                     if (formCheck()) {
+                        piloto.setNombre(binding.nombreEdit.getText().toString());
+                        piloto.setApellidos(binding.apellidoEdit.getText().toString());
+                        piloto.setEdad(Integer.parseInt(binding.edadEdit.getText().toString()));
+                        piloto.setPuntos(Float.parseFloat(binding.puntosEdit.getText().toString()));
+                        piloto.setGp_terminados(Integer.parseInt(binding.gpEdit.getText().toString()));
+                        piloto.setVictorias(Integer.parseInt(binding.victoriasEdit.getText().toString()));
+                        piloto.setPole_positions(Integer.parseInt(binding.polesEdit.getText().toString()));
+                        piloto.setPodios(Integer.parseInt(binding.podiosEdit.getText().toString()));
+
+
                         if (modifica) {
-                            Toast.makeText(getContext(), "Piloto Modificado", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Modificando piloto...", Toast.LENGTH_SHORT).show();
                             int count = 0;
 
                             for (Equipo e : BDestatica.getEquipos())
-                                if (e.getNombre().equals(piloto.getEquipo())) {
-                                    equipoEcontrado = true;
+                                if (e.getNombre().equals(piloto.getEquipo()))
                                     for (Piloto p : BDestatica.getPilotos())
                                         if (p.getEquipo().equals(e.getNombre()) && !p.getId().equals(piloto.getId()))
                                             count++;
-                                }
 
-                            if (equipoEcontrado && count < 2) {
+
+                            if (count < 2) {
                                 daoPiloto.modificaPiloto(piloto, img);
                                 cerrarFragment();
-                            } else if (!equipoEcontrado)
-                                Toast.makeText(getContext(), "El equipo no existe", Toast.LENGTH_SHORT).show();
-                            else
+                            } else
                                 Toast.makeText(getContext(), "El equipo ya contiene 2 pilotos", Toast.LENGTH_SHORT).show();
 
                         } else if (img != null) {
-                            equipoEcontrado = false;
-
                             int count = 0;
 
                             for (Equipo e : BDestatica.getEquipos())
-                                if (e.getNombre().equals(piloto.getEquipo())) {
-                                    equipoEcontrado = true;
+                                if (e.getNombre().equals(piloto.getEquipo()))
                                     for (Piloto p : BDestatica.getPilotos())
-                                        if (p.getEquipo().equals(e.getNombre()))
+                                        if (p.getEquipo().equals(e.getNombre())) {
                                             count++;
-                                }
+                                            Toast.makeText(getContext(), p.getNombre(), Toast.LENGTH_SHORT).show();
+                                        }
 
-                            if (equipoEcontrado && count < 2) {
+                            if (count < 2) {
                                 daoPiloto.add(piloto, img);
+                                Toast.makeText(getContext(), "Añadiendo piloto...", Toast.LENGTH_SHORT).show();
                                 cerrarFragment();
-                            } else if (equipoEcontrado)
-                                Toast.makeText(getContext(), "Ya hay dos pilotos para el equipo " + piloto.getEquipo(), Toast.LENGTH_SHORT).show();
-                            else
+                            } else
                                 Toast.makeText(getContext(), "Equipo no válido", Toast.LENGTH_SHORT).show();
                         } else
                             Toast.makeText(getContext(), "Inserta una imagen", Toast.LENGTH_SHORT).show();
@@ -287,32 +311,32 @@ public class FullscreenPiloto extends Fragment {
     private boolean formCheck() {
         boolean result = true;
 
-        if (piloto.getNombre() == null)
-            result = false;
+        if (binding.nombreEdit.getText().toString().equals(""))
+            return false;
 
-        if (piloto.getEquipo() == null)
-            result = false;
+        if (piloto.getEquipo() == "")
+            return false;
 
-        if (piloto.getApellidos() == null)
-            result = false;
+        if (binding.apellidoEdit.getText().toString().equals(""))
+            return false;
 
-        if (piloto.getEdad() + "" == null)
-            result = false;
+        if (binding.edadEdit.getText().toString().equals(""))
+            return false;
 
-        if (piloto.getGp_terminados() + "" == null)
-            result = false;
+        if (binding.gpEdit.getText().toString().equals(""))
+            return false;
 
-        if (piloto.getPodios() + "" == null)
-            result = false;
+        if (binding.podiosEdit.getText().toString().equals(""))
+            return false;
 
-        if (piloto.getVictorias() + "" == null)
-            result = false;
+        if (binding.victoriasEdit.getText().toString().equals(""))
+            return false;
 
-        if (piloto.getPuntos() + "" == null)
-            result = false;
+        if (binding.puntosEdit.getText().toString().equals(""))
+            return false;
 
-        if (piloto.getPole_positions() + "" == null)
-            result = false;
+        if (binding.polesEdit.getText().toString().equals(""))
+            return false;
 
         return result;
     }
